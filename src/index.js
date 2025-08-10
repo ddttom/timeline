@@ -6,11 +6,11 @@
  */
 
 import path from 'path';
-import { promptForDirectory, displayProgress, showSpinner } from './utils/input.js';
+import { promptForDirectory, validateDirectoryPath, displayProgress, showSpinner } from './utils/input.js';
 import { discoverImageFiles, createImageIndex, filterImagesNeedingGeolocation, getImagesWithGps } from './services/fileDiscovery.js';
 import { parseTimelineData, validateTimelineFile, getTimelineStatistics } from './services/timelineParser.js';
 import { primaryInterpolation, secondaryInterpolation, validateInterpolationResult } from './services/interpolation.js';
-import { writeGpsToExif, isValidTimestamp, extractGpsFromImage } from './services/exif.js';
+import { writeGpsCoordinates, extractGpsCoordinates, getImageTimestamp } from './services/exif.js';
 import { StatisticsCollector, displayStatisticsReport, exportStatisticsReport } from './services/statistics.js';
 import { isValidCoordinatePair } from './utils/coordinates.js';
 import { createGeolocationDatabase, GPS_SOURCES } from './services/geolocationDatabase.js';
@@ -57,9 +57,23 @@ class ImageGeolocationProcessor {
             // Initialize geolocation database
             await this.initializeGeolocationDatabase();
             
-            // Phase 0: Get target directory from user
-            const targetDirectory = promptForDirectory();
-            console.log(`\n📁 Processing directory: ${targetDirectory}\n`);
+            // Phase 0: Get target directory from user or command line
+            let targetDirectory;
+            
+            // Check for command line argument first
+            if (process.argv[2]) {
+                try {
+                    targetDirectory = validateDirectoryPath(process.argv[2]);
+                    console.log(`\n📁 Using command line directory: ${targetDirectory}\n`);
+                } catch (error) {
+                    console.error(`❌ Invalid directory path: ${error.message}`);
+                    process.exit(1);
+                }
+            } else {
+                // Fall back to interactive prompt
+                targetDirectory = promptForDirectory();
+                console.log(`\n📁 Processing directory: ${targetDirectory}\n`);
+            }
             
             // Phase 1: Image Discovery and Indexing
             await this.phaseOne(targetDirectory);
@@ -455,7 +469,7 @@ class ImageGeolocationProcessor {
             }
             
             // Write GPS coordinates
-            const success = await writeGpsToExif(
+            const success = await writeGpsCoordinates(
                 filePath,
                 interpolationResult.latitude,
                 interpolationResult.longitude
@@ -483,75 +497,33 @@ class ImageGeolocationProcessor {
         displayStatisticsReport(report);
         
         // Export report to JSON file
-        const reportPath = path.resolve('processing-report.json');
-        exportStatisticsReport(report, reportPath);
+        try {
+            exportStatisticsReport(report, 'data/processing-report.json');
+            console.log('\n📄 Report exported to data/processing-report.json');
+        } catch (error) {
+            console.warn(`Warning: Failed to export report: ${error.message}`);
+        }
         
-        // Display summary
+        // Summary
         const summary = {
-            totalImages: report.summary.totalImagesProcessed,
-            newlyGeotagged: report.summary.newlyGeotaggedImages,
-            successRate: report.summary.interpolationSuccessRate.toFixed(1),
-            duration: Math.round(report.summary.totalDuration / 1000)
+            totalImages: this.imageIndex?.size || 0,
+            imagesWithGps: report.indexing?.imagesWithGps || 0,
+            interpolationsSuccessful: (report.interpolation?.primarySuccessful || 0) + (report.interpolation?.secondarySuccessful || 0),
+            gpsCoordinatesWritten: report.gpsWriting?.successful || 0
         };
         
-        console.log(`🎉 Processing completed successfully!`);
-        console.log(`   📸 ${summary.totalImages.toLocaleString()} images processed`);
-        console.log(`   🎯 ${summary.newlyGeotagged.toLocaleString()} images newly geotagged`);
-        console.log(`   ✅ ${summary.successRate}% success rate`);
-        console.log(`   ⏱️  ${summary.duration}s total processing time`);
+        console.log('\n🎯 Processing Summary:');
+        console.log(`   📸 Total images processed: ${summary.totalImages.toLocaleString()}`);
+        console.log(`   🗺️  Images with GPS coordinates: ${summary.imagesWithGps.toLocaleString()}`);
+        console.log(`   🎯 Successful interpolations: ${summary.interpolationsSuccessful.toLocaleString()}`);
+        console.log(`   💾 GPS coordinates written: ${summary.gpsCoordinatesWritten.toLocaleString()}`);
         
-        // Add detailed analysis if no images were geotagged
-        if (summary.newlyGeotagged === 0 && this.imagesNeedingGeolocation.length > 0) {
-            console.log(`\n🔍 ANALYSIS: Why no images were geotagged`);
-            console.log('='.repeat(50));
-            
-            // Analyze timeline coverage
-            if (this.timelineRecords && this.timelineRecords.length > 0) {
-                const timelineStart = new Date(Math.min(...this.timelineRecords.map(r => new Date(r.timestamp))));
-                const timelineEnd = new Date(Math.max(...this.timelineRecords.map(r => new Date(r.timestamp))));
-                
-                console.log(`📅 Timeline coverage: ${timelineStart.toLocaleDateString()} to ${timelineEnd.toLocaleDateString()}`);
-                
-                // Analyze image timestamps
-                const imageTimestamps = this.imagesNeedingGeolocation.map(img => img.metadata.timestamp).filter(t => t);
-                if (imageTimestamps.length > 0) {
-                    const imageStart = new Date(Math.min(...imageTimestamps));
-                    const imageEnd = new Date(Math.max(...imageTimestamps));
-                    
-                    console.log(`📸 Image date range: ${imageStart.toLocaleDateString()} to ${imageEnd.toLocaleDateString()}`);
-                    
-                    // Check overlap
-                    const hasOverlap = !(imageEnd < timelineStart || imageStart > timelineEnd);
-                    if (!hasOverlap) {
-                        if (imageStart > timelineEnd) {
-                            const daysAfter = Math.round((imageStart - timelineEnd) / (1000 * 60 * 60 * 24));
-                            console.log(`❌ Images are ${daysAfter} days AFTER timeline ends`);
-                        } else {
-                            const daysBefore = Math.round((timelineStart - imageStart) / (1000 * 60 * 60 * 24));
-                            console.log(`❌ Images are ${daysBefore} days BEFORE timeline starts`);
-                        }
-                        console.log(`💡 Solution: Export timeline data that covers ${imageStart.toLocaleDateString()} to ${imageEnd.toLocaleDateString()}`);
-                    } else {
-                        console.log(`✅ Timeline and images have overlapping dates`);
-                        console.log(`❌ But no matches found within ${this.config.timelineTolerance}-minute tolerance`);
-                        console.log(`💡 Solution: Increase timelineTolerance in config (currently ${this.config.timelineTolerance} minutes)`);
-                    }
-                }
-            } else {
-                console.log(`❌ No timeline data available`);
-                console.log(`💡 Solution: Place Timeline Edits.json file in data/ directory`);
-            }
-            
-            // Secondary interpolation analysis
-            if (this.imagesWithGps.length === 0) {
-                console.log(`❌ No reference images with GPS coordinates found`);
-                console.log(`💡 Solution: Include some images with existing GPS coordinates for interpolation`);
-            } else {
-                console.log(`✅ Found ${this.imagesWithGps.length} images with GPS coordinates for secondary interpolation`);
-                console.log(`❌ But secondary interpolation also failed`);
-                console.log(`💡 Check: Images may be too far apart in time (>${this.config.secondaryTimeWindow}h) or space (>${this.config.secondaryRadius}m)`);
-            }
+        if (summary.totalImages > 0) {
+            const gpsPercentage = ((summary.imagesWithGps / summary.totalImages) * 100).toFixed(1);
+            console.log(`   📊 GPS coverage: ${gpsPercentage}%`);
         }
+        
+        console.log('\n✅ Processing complete!');
     }
     
     /**
@@ -560,161 +532,124 @@ class ImageGeolocationProcessor {
     async initializeGeolocationDatabase() {
         try {
             this.geolocationDb = await createGeolocationDatabase(this.config.geolocationDatabase);
-            console.log('✅ Geolocation database initialized');
         } catch (error) {
-            console.error('❌ Failed to initialize geolocation database:', error.message);
-            throw error;
+            throw new Error(`Failed to initialize geolocation database: ${error.message}`);
         }
     }
     
     /**
-     * Export geolocation database to JSON
+     * Export geolocation database
      */
     async exportGeolocationDatabase() {
         try {
-            if (!this.geolocationDb) {
-                console.warn('⚠️  Geolocation database not initialized, skipping export');
-                return;
-            }
-            
-            const success = await this.geolocationDb.exportToJson();
-            if (success) {
-                const stats = this.geolocationDb.getStatistics();
-                console.log(`\n📄 Geolocation database exported successfully`);
-                console.log(`   📊 Total GPS records: ${stats.totalRecords}`);
-                console.log(`   📍 EXIF GPS: ${stats.sourceBreakdown[GPS_SOURCES.EXIF_GPS]}`);
-                console.log(`   🗺️  Timeline interpolated: ${stats.sourceBreakdown[GPS_SOURCES.TIMELINE_INTERPOLATED]}`);
-                console.log(`   📸 Nearby images interpolated: ${stats.sourceBreakdown[GPS_SOURCES.NEARBY_INTERPOLATED]}`);
-                console.log(`   💾 Export location: ${this.config.geolocationDatabase.exportPath}`);
+            if (this.geolocationDb && this.config.geolocationDatabase.exportPath) {
+                console.log('\n💾 Exporting geolocation database...');
+                const exportPath = await this.geolocationDb.export(this.config.geolocationDatabase.exportPath);
+                console.log(`   📄 Database exported to: ${exportPath}`);
             }
         } catch (error) {
-            console.error('❌ Failed to export geolocation database:', error.message);
+            console.warn(`Warning: Failed to export geolocation database: ${error.message}`);
         }
     }
     
     /**
-     * Extract GPS data with database priority checking
+     * Extract GPS coordinates with database priority
      */
     async extractGpsWithPriority() {
-        try {
-            let processedCount = 0;
-            let databaseHits = 0;
-            let exifExtractions = 0;
-            const totalImages = this.imageIndex.size;
-            
-            console.log(`   Processing ${totalImages} images for GPS data...`);
-            
-            for (const [filePath, metadata] of this.imageIndex) {
-                try {
-                    // Priority 1: Check existing geolocation database
-                    let gpsData = await this.geolocationDb.getGpsData(filePath);
-                    
-                    if (gpsData) {
-                        // Found in database - update metadata
-                        metadata.hasGpsCoordinates = true;
-                        metadata.needsGeolocation = false;
-                        metadata.gpsSource = gpsData.source;
-                        metadata.gps = gpsData; // Store GPS data for timeline augmentation
-                        databaseHits++;
-                        
-                        console.log(`   📍 Database: ${path.basename(filePath)} (${gpsData.source})`);
-                    } else {
-                        // Priority 2: Extract from EXIF if not in database
-                        gpsData = await extractGpsFromImage(filePath);
-                        
-                        if (gpsData) {
-                            // Store in database for future runs
-                            await this.geolocationDb.store(filePath, gpsData, GPS_SOURCES.EXIF_GPS);
-                            
-                            // Update metadata
-                            metadata.hasGpsCoordinates = true;
-                            metadata.needsGeolocation = false;
-                            metadata.gpsSource = GPS_SOURCES.EXIF_GPS;
-                            metadata.gps = gpsData; // Store GPS data for timeline augmentation
-                            exifExtractions++;
-                            
-                            console.log(`   📷 EXIF: ${path.basename(filePath)}`);
-                        }
-                    }
+        let processedCount = 0;
+        const totalImages = this.imageIndex.size;
+        
+        for (const [filePath, metadata] of this.imageIndex) {
+            try {
+                // Priority 1: Check database first
+                const existingGps = await this.geolocationDb.getGpsData(filePath);
+                if (existingGps) {
+                    // Update metadata with database GPS data
+                    metadata.hasGpsCoordinates = true;
+                    metadata.exifData = metadata.exifData || {};
+                    metadata.exifData.latitude = existingGps.latitude;
+                    metadata.exifData.longitude = existingGps.longitude;
+                    metadata.needsGeolocation = false;
                     
                     processedCount++;
-                    
-                    // Show progress every 50 images
                     if (processedCount % 50 === 0) {
                         displayProgress('GPS extraction', processedCount, totalImages);
                     }
-                    
-                } catch (error) {
-                    console.warn(`   ⚠️  Failed to process ${path.basename(filePath)}: ${error.message}`);
+                    continue;
                 }
+                
+                // Priority 2: Extract from EXIF
+                const gpsCoordinates = await extractGpsCoordinates(filePath);
+                if (gpsCoordinates && gpsCoordinates.latitude && gpsCoordinates.longitude) {
+                    // Store extracted GPS data in database for future runs
+                    const gpsData = {
+                        latitude: gpsCoordinates.latitude,
+                        longitude: gpsCoordinates.longitude,
+                        altitude: gpsCoordinates.altitude || null,
+                        bearing: null,
+                        accuracy: null,
+                        timestamp: metadata.timestamp
+                    };
+                    
+                    await this.geolocationDb.store(filePath, gpsData, GPS_SOURCES.EXIF_EXTRACTED);
+                    
+                    // Update metadata
+                    metadata.hasGpsCoordinates = true;
+                    metadata.exifData = metadata.exifData || {};
+                    metadata.exifData.latitude = gpsCoordinates.latitude;
+                    metadata.exifData.longitude = gpsCoordinates.longitude;
+                    metadata.needsGeolocation = false;
+                }
+                
+                processedCount++;
+                if (processedCount % 50 === 0) {
+                    displayProgress('GPS extraction', processedCount, totalImages);
+                }
+                
+            } catch (error) {
+                console.warn(`Warning: GPS extraction failed for ${path.basename(filePath)}: ${error.message}`);
+                processedCount++;
             }
-            
-            console.log(`\n   ✅ GPS extraction completed:`);
-            console.log(`      📊 Total processed: ${processedCount}`);
-            console.log(`      🗄️  Database hits: ${databaseHits}`);
-            console.log(`      📷 EXIF extractions: ${exifExtractions}`);
-            console.log(`      🔍 Still need geolocation: ${totalImages - databaseHits - exifExtractions}`);
-            
-        } catch (error) {
-            console.error('❌ GPS extraction error:', error.message);
-            throw error;
         }
+        
+        displayProgress('GPS extraction', totalImages, totalImages);
+        console.log(''); // New line after progress
     }
     
     /**
-     * Cleanup geolocation database resources
+     * Cleanup geolocation database
      */
     async cleanupGeolocationDatabase() {
         try {
             if (this.geolocationDb) {
-                await this.geolocationDb.cleanup();
-                this.geolocationDb = null;
+                await this.geolocationDb.close();
             }
         } catch (error) {
-            console.error('❌ Database cleanup error:', error.message);
+            console.warn(`Warning: Failed to cleanup geolocation database: ${error.message}`);
         }
     }
 }
 
 /**
- * Application entry point
+ * Main application entry point
  */
 async function main() {
-    try {
-        const processor = new ImageGeolocationProcessor();
-        await processor.run();
-    } catch (error) {
-        console.error(`\n💥 Fatal error: ${error.message}`);
-        process.exit(1);
-    }
+    const processor = new ImageGeolocationProcessor();
+    await processor.run();
 }
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (error) => {
-    console.error('\n💥 Uncaught Exception:', error.message);
-    console.error('Stack trace:', error.stack);
-    process.exit(1);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('\n💥 Unhandled Rejection at:', promise, 'reason:', reason);
-    process.exit(1);
-});
-
-// Handle graceful shutdown
-process.on('SIGINT', () => {
-    console.log('\n\n👋 Received SIGINT. Gracefully shutting down...');
-    process.exit(0);
-});
-
-process.on('SIGTERM', () => {
-    console.log('\n\n👋 Received SIGTERM. Gracefully shutting down...');
-    process.exit(0);
-});
+/**
+ * Validate timestamp for processing
+ * @param {Date} timestamp - Timestamp to validate
+ * @returns {boolean} True if valid
+ */
+function isValidTimestamp(timestamp) {
+    return timestamp instanceof Date && 
+           !isNaN(timestamp.getTime()) && 
+           timestamp.getTime() > 0;
+}
 
 // Run the application
 if (import.meta.url === `file://${process.argv[1]}`) {
     main();
 }
-
-export default ImageGeolocationProcessor;

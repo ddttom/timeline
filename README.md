@@ -52,22 +52,22 @@ A comprehensive Node.js application that processes image geolocation using Googl
 
 ### Setup
 
-1. Clone or download the project:
+Clone or download the project:
 
 ```bash
 git clone https://github.com/ddttom/timeline.git
 cd timeline
-```
-
-2. Install dependencies:
+``
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Ensure you have the Google Maps timeline data file:
-   - Place your `Timeline Edits.json` file in the `data/` directory
-   - The file should be exported from Google Takeout (Location History)
+Ensure you have the Google Maps timeline data file:
+
+- Place your `Timeline Edits.json` file in the `data/` directory
+- The file should be exported from Google Takeout (Location History)
 
 ## Usage
 
@@ -98,9 +98,17 @@ npm run dev
 
 ### Command Line Interface
 
-The application provides an interactive command-line interface with a convenient default directory option:
+The application supports both interactive and non-interactive modes:
 
+#### Interactive Mode (Default)
+
+When run without arguments, the application provides an interactive command-line interface:
+
+```bash
+npm start
 ```
+
+```bash
 === Image Geolocation Processor ===
 This application will process images in a directory and add GPS coordinates using timeline data.
 
@@ -109,7 +117,31 @@ Enter the target directory path (default: /Users/username/pics):
 Proceed with this directory? [y/N] y
 ```
 
-**Default Directory**: Simply press Enter (return) with no input to use `~/pics` as the target directory. This provides a convenient default for users who store their images in a standard location.
+**Default Directory**: Simply press Enter (return) with no input to use `~/pics` as the target directory.
+
+#### Command Line Arguments
+
+For automated workflows and testing, you can specify the target directory directly:
+
+```bash
+# Process a specific directory
+node src/index.js /path/to/your/images
+
+# Process a test subset
+node src/index.js test-subset/
+
+# Using npm script with arguments
+npm start -- /path/to/your/images
+```
+
+**Benefits of Command Line Arguments**:
+
+- **Automation**: Perfect for scripts and batch processing
+- **Testing**: Easily test with smaller image subsets
+- **CI/CD Integration**: Seamless integration with automated workflows
+- **No User Interaction**: Runs completely unattended
+
+The application will validate the provided directory path and exit with an error if the directory doesn't exist or isn't accessible.
 
 ## Configuration
 
@@ -249,7 +281,7 @@ The application parses timeline data with the following structure:
 
 The application provides real-time progress updates:
 
-```
+```bash
 🚀 Starting Image Geolocation Processor...
 
 📋 PHASE 1: Image Discovery and EXIF Extraction
@@ -272,7 +304,7 @@ Processing images [████████████████████�
 
 A comprehensive report is generated at the end of processing:
 
-```
+```bash
 📊 IMAGE GEOLOCATION PROCESSING REPORT
 ============================================================
 
@@ -383,7 +415,7 @@ The application includes comprehensive error handling:
 
 **Timeline file not found**
 
-```
+```bash
 ⚠️  Timeline file not found, skipping timeline-based interpolation
 ```
 
@@ -392,7 +424,7 @@ The application includes comprehensive error handling:
 
 **No images need geolocation**
 
-```
+```bash
 ✅ No images need geolocation processing!
 ```
 
@@ -401,7 +433,7 @@ The application includes comprehensive error handling:
 
 **Permission denied**
 
-```
+```bash
 ❌ Permission denied accessing directory: /path/to/directory
 ```
 
@@ -412,7 +444,7 @@ The application includes comprehensive error handling:
 
 **GPS coordinates not being written to images**
 
-```
+```bash
 ⚠️  Failed to write GPS coordinates - both piexifjs and exiftool failed
 ```
 

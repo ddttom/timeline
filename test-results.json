@@ -1,0 +1,130 @@
+{
+  "timestamp": "2025-08-10T20:18:40.844Z",
+  "duration": 1632,
+  "summary": {
+    "totalTests": 55,
+    "totalPassed": 55,
+    "success": true,
+    "percentage": 100
+  },
+  "results": {
+    "Coordinate Utilities": {
+      "totalTests": 44,
+      "passedTests": 44,
+      "results": {
+        "e7Conversion": {
+          "success": true,
+          "passed": 8,
+          "total": 8
+        },
+        "coordinateValidation": {
+          "success": true,
+          "passed": 18,
+          "total": 18
+        },
+        "dmsConversion": {
+          "success": true,
+          "passed": 8,
+          "total": 8
+        },
+        "longitudeNormalization": {
+          "success": true,
+          "passed": 8,
+          "total": 8
+        },
+        "centerCalculation": {
+          "success": true,
+          "passed": 2,
+          "total": 2
+        }
+      },
+      "success": true,
+      "duration": 2,
+      "error": null
+    },
+    "GPS Extraction": {
+      "totalTests": 2,
+      "passedTests": 2,
+      "results": {
+        "gpsExtraction": {
+          "success": true,
+          "coordinates": {
+            "latitude": 78.22118333333333,
+            "longitude": 15.639725,
+            "altitude": 42.81
+          },
+          "accuracy": {
+            "latDiff": 3.3333265037072124e-9,
+            "lonDiff": 0
+          }
+        },
+        "noGpsImage": {
+          "success": true,
+          "hasGps": false
+        }
+      },
+      "success": true,
+      "duration": 95,
+      "error": null
+    },
+    "GPS Writing": {
+      "totalTests": 3,
+      "passedTests": 3,
+      "results": {
+        "gpsWriting": {
+          "success": true,
+          "written": {
+            "latitude": 78.22118333,
+            "longitude": 15.639725,
+            "altitude": 42.81
+          },
+          "read": {
+            "latitude": 78.22118333002054,
+            "longitude": 15.639725,
+            "altitude": 42.81
+          },
+          "accuracy": {
+            "latDiff": 2.0534685063466895e-11,
+            "lonDiff": 0,
+            "altDiff": 0
+          }
+        },
+        "invalidGpsWriting": {
+          "success": true,
+          "rejectedInvalid": true
+        },
+        "gpsFormat": {
+          "success": true,
+          "format": "DMS",
+          "exiftoolOutput": "GPS Version ID                  : 2.3.0.0\nGPS Latitude Ref                : North\nGPS Longitude Ref               : East\nGPS Altitude Ref                : Above Sea Level\nGPS Time Stamp                  : 20:01:25\nGPS Satellites                  : \nGPS Status                      : Measurement Active\nGPS Map Datum                   : WGS-84\nGPS Date Stamp                  : 2025:08:02\nGPS Altitude                    : 42.8 m Above Sea Level\nGPS Date/Time                   : 2025:08:02 20:01:25Z\nGPS Latitude                    : 78 deg 13' 16.26\" N\nGPS Longitude                   : 15 deg 38' 23.01\" E\nGPS Position                    : 78 deg 13' 16.26\" N, 15 deg 38' 23.01\" E\n"
+        }
+      },
+      "success": true,
+      "duration": 421,
+      "error": null
+    },
+    "CR3 GPS Operations": {
+      "totalTests": 6,
+      "passedTests": 6,
+      "success": true,
+      "details": {
+        "passed": 6,
+        "failed": 0
+      },
+      "duration": 1114,
+      "error": null
+    }
+  },
+  "environment": {
+    "node": "v23.3.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "memory": {
+      "rss": 229425152,
+      "heapTotal": 10502144,
+      "heapUsed": 5479976,
+      "external": 84228703,
+      "arrayBuffers": 82421320
+    }
+  }
+}

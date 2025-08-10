@@ -203,9 +203,9 @@ async function extractImageMetadata(filePath) {
             timestamp: timestamp,
             hasValidTimestamp: timestamp && timestamp > new Date('1970-01-01'),
             hasGpsCoordinates: hasGps,
-            format: exifData.format,
-            width: exifData.width,
-            height: exifData.height,
+            format: exifData?.format || 'unknown',
+            width: exifData?.width || null,
+            height: exifData?.height || null,
             exifData: exifData,
             needsGeolocation: !hasGps && timestamp && timestamp > new Date('1970-01-01'),
             processedAt: new Date()
@@ -246,13 +246,14 @@ export function getImagesWithGps(imageIndex) {
     const imagesWithGps = [];
     
     for (const [filePath, metadata] of imageIndex) {
-        if (metadata.hasGpsCoordinates && metadata.exifData.gps) {
+        if (metadata.hasGpsCoordinates && metadata.exifData && 
+            metadata.exifData.latitude !== undefined && metadata.exifData.longitude !== undefined) {
             imagesWithGps.push({
                 filePath,
                 metadata,
                 coordinates: {
-                    lat: metadata.exifData.gps.latitude,
-                    lng: metadata.exifData.gps.longitude
+                    lat: metadata.exifData.latitude,
+                    lng: metadata.exifData.longitude
                 },
                 timestamp: metadata.timestamp
             });

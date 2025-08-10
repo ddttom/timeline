@@ -1,9 +1,3 @@
-/**
- * EXIF metadata extraction and manipulation service
- * Handles reading and writing EXIF data from images using Sharp library
- */
-
-import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
@@ -13,808 +7,704 @@ import { isValidCoordinatePair, dmsToDecimal, decimalToDms } from '../utils/coor
 const execAsync = promisify(exec);
 
 /**
- * Supported image file extensions
+ * EXIF GPS tag definitions
  */
-export const SUPPORTED_EXTENSIONS = [
-    '.jpg', '.jpeg', '.tiff', '.tif', '.png', '.webp', '.avif', '.heif', '.heic',
-    '.dng', '.cr2', '.cr3', '.nef', '.arw', '.orf', '.rw2', '.raf', '.pef', '.srw'
-];
+const GPS_TAGS = {
+    0x0001: 'GPSLatitudeRef',
+    0x0002: 'GPSLatitude',
+    0x0003: 'GPSLongitudeRef',
+    0x0004: 'GPSLongitude',
+    0x0005: 'GPSAltitudeRef',
+    0x0006: 'GPSAltitude',
+    0x0007: 'GPSTimeStamp',
+    0x001D: 'GPSDateStamp'
+};
 
 /**
- * Check if file is a supported image format
- * @param {string} filePath - Path to the file
- * @returns {boolean} True if file is supported
+ * EXIF data type sizes in bytes
  */
-export function isSupportedImageFile(filePath) {
-    const ext = path.extname(filePath).toLowerCase();
-    return SUPPORTED_EXTENSIONS.includes(ext);
+const TYPE_SIZES = {
+    1: 1,  // BYTE
+    2: 1,  // ASCII
+    3: 2,  // SHORT
+    4: 4,  // LONG
+    5: 8,  // RATIONAL
+    6: 1,  // SBYTE
+    7: 1,  // UNDEFINED
+    8: 2,  // SSHORT
+    9: 4,  // SLONG
+    10: 8, // SRATIONAL
+    11: 4, // FLOAT
+    12: 8  // DOUBLE
+};
+
+/**
+ * Extract GPS coordinates from image file
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<Object|null>} GPS coordinates or null if not found
+ */
+export async function extractGpsCoordinates(filePath) {
+    try {
+        console.log(`Extracting GPS coordinates from: ${filePath}`);
+        
+        // Try custom EXIF parsing first
+        const customResult = await extractGpsFromExif(filePath);
+        if (customResult) {
+            console.log(`Custom EXIF parsing successful for ${filePath}`);
+            return customResult;
+        }
+        
+        // Fallback to exiftool if available
+        console.log(`Custom EXIF parsing failed, trying exiftool fallback for ${filePath}`);
+        const exiftoolResult = await extractGpsWithExiftool(filePath);
+        if (exiftoolResult) {
+            console.log(`Exiftool fallback successful for ${filePath}`);
+            return exiftoolResult;
+        }
+        
+        console.log(`No GPS coordinates found in ${filePath}`);
+        return null;
+        
+    } catch (error) {
+        console.warn(`GPS extraction failed for ${filePath}: ${error.message}`);
+        return null;
+    }
 }
 
 /**
- * Extract complete EXIF metadata from an image file
- * @param {string} filePath - Path to the image file
- * @returns {Object} EXIF metadata object
+ * Extract GPS coordinates using custom EXIF parsing
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<Object|null>} GPS coordinates or null if not found
  */
-export async function extractExifMetadata(filePath) {
+async function extractGpsFromExif(filePath) {
     try {
-        const image = sharp(filePath);
-        const metadata = await image.metadata();
+        const buffer = await fs.promises.readFile(filePath);
+        const exifData = parseExifBuffer(buffer);
         
-        // Extract basic metadata
-        const exifData = {
-            filePath: path.resolve(filePath),
-            fileName: path.basename(filePath),
-            fileSize: fs.statSync(filePath).size,
-            format: metadata.format,
-            width: metadata.width,
-            height: metadata.height,
-            density: metadata.density,
-            hasProfile: metadata.hasProfile,
-            hasAlpha: metadata.hasAlpha,
-            orientation: metadata.orientation,
-            exif: metadata.exif || null,
-            icc: metadata.icc || null,
-            iptc: metadata.iptc || null,
-            xmp: metadata.xmp || null,
-            tifftagPhotoshop: metadata.tifftagPhotoshop || null
-        };
+        if (!exifData || !exifData.gps) {
+            console.log(`No GPS data found in EXIF for ${filePath}`);
+            return null;
+        }
         
-        // Parse EXIF data if available
-        if (metadata.exif) {
-            try {
-                const exifBuffer = metadata.exif;
-                const parsedExif = parseExifBuffer(exifBuffer);
-                exifData.parsedExif = parsedExif;
-                
-                // Extract GPS coordinates if available
-                const gpsData = extractGpsFromExif(parsedExif);
-                if (gpsData) {
-                    exifData.gps = gpsData;
-                }
-                
-                // Extract timestamp information
-                const timestampData = extractTimestampFromExif(parsedExif);
-                if (timestampData) {
-                    exifData.timestamp = timestampData;
-                }
-                
-            } catch (parseError) {
-                console.warn(`Warning: Failed to parse EXIF data for ${filePath}: ${parseError.message}`);
-                exifData.exifParseError = parseError.message;
+        const gps = exifData.gps;
+        console.log(`Raw GPS data extracted:`, gps);
+        
+        // Convert GPS coordinates to decimal degrees
+        const coordinates = convertGpsToDecimal(gps);
+        if (coordinates && isValidCoordinatePair(coordinates.latitude, coordinates.longitude)) {
+            console.log(`Valid GPS coordinates found: ${coordinates.latitude}, ${coordinates.longitude}`);
+            return coordinates;
+        }
+        
+        console.log(`Invalid GPS coordinates extracted from ${filePath}`);
+        return null;
+        
+    } catch (error) {
+        console.warn(`Custom EXIF parsing failed for ${filePath}: ${error.message}`);
+        return null;
+    }
+}
+/**
+ * Detect file format and EXIF support
+ * @param {Buffer} buffer - Image file buffer
+ * @returns {Object} File format information
+ */
+function detectFileFormat(buffer) {
+    // Check for JPEG format
+    if (buffer.length >= 2 && buffer[0] === 0xFF && buffer[1] === 0xD8) {
+        return { type: 'JPEG', supportsExif: true };
+    }
+    
+    // Check for CR3 format (Canon RAW v3)
+    if (buffer.length >= 12) {
+        const ftyp = buffer.slice(4, 8).toString();
+        const brand = buffer.slice(8, 12).toString();
+        if (ftyp === 'ftyp' && brand === 'crx ') {
+            return { type: 'CR3', supportsExif: false };
+        }
+    }
+    
+    // Check for TIFF format
+    if (buffer.length >= 4) {
+        const tiffLE = Buffer.from([0x49, 0x49, 0x2A, 0x00]); // Little endian
+        const tiffBE = Buffer.from([0x4D, 0x4D, 0x00, 0x2A]); // Big endian
+        if (buffer.slice(0, 4).equals(tiffLE) || buffer.slice(0, 4).equals(tiffBE)) {
+            return { type: 'TIFF', supportsExif: true };
+        }
+    }
+    
+    // Check for PNG format
+    if (buffer.length >= 8) {
+        const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+        if (buffer.slice(0, 8).equals(pngSignature)) {
+            return { type: 'PNG', supportsExif: false };
+        }
+    }
+    
+    return { type: 'UNKNOWN', supportsExif: false };
+}
+
+
+/**
+ * Parse EXIF buffer to extract GPS data
+ * @param {Buffer} buffer - Image file buffer
+ * @returns {Object|null} Parsed EXIF data with GPS information
+ */
+function parseExifBuffer(buffer) {
+    try {
+        // Check file format first
+        const fileFormat = detectFileFormat(buffer);
+        if (!fileFormat.supportsExif) {
+            console.log(`File format ${fileFormat.type} not supported for EXIF parsing`);
+            return null;
+        }
+        
+        // Find EXIF marker (0xFFE1)
+        const exifMarker = Buffer.from([0xFF, 0xE1]);
+        let exifStart = -1;
+        
+        for (let i = 0; i < buffer.length - 1; i++) {
+            if (buffer[i] === 0xFF && buffer[i + 1] === 0xE1) {
+                exifStart = i;
+                break;
             }
         }
         
-        return exifData;
+        if (exifStart === -1) {
+            console.log('No EXIF marker found');
+            return null;
+        }
+        
+        // Skip EXIF marker (2 bytes) and length (2 bytes)
+        let offset = exifStart + 4;
+        
+        // Check for "Exif\0\0" identifier
+        const exifId = buffer.slice(offset, offset + 6);
+        if (exifId.toString() !== 'Exif\0\0') {
+            console.log('Invalid EXIF identifier');
+            return null;
+        }
+        offset += 6;
+        
+        // Parse TIFF header
+        const tiffStart = offset;
+        const byteOrder = buffer.slice(offset, offset + 2);
+        const isLittleEndian = byteOrder.equals(Buffer.from([0x49, 0x49]));
+        
+        if (!isLittleEndian && !byteOrder.equals(Buffer.from([0x4D, 0x4D]))) {
+            console.log('Invalid TIFF byte order');
+            return null;
+        }
+        
+        offset += 2;
+        
+        // Skip TIFF magic number (should be 42)
+        offset += 2;
+        
+        // Get IFD0 offset
+        const ifd0Offset = readValue(buffer, offset, 4, isLittleEndian);
+        offset = tiffStart + ifd0Offset;
+        
+        console.log(`Parsing IFD0 at offset: ${offset}`);
+        
+        // Parse IFD0 to find GPS IFD pointer
+        const ifd0Data = parseIFD(buffer, offset, tiffStart, isLittleEndian);
+        
+        // Look for GPS IFD pointer (tag 0x8825)
+        let gpsIfdOffset = null;
+        if (ifd0Data && ifd0Data['0x8825']) {
+            gpsIfdOffset = ifd0Data['0x8825'];
+            console.log(`Found GPS IFD pointer at offset: ${gpsIfdOffset}`);
+        }
+        
+        if (!gpsIfdOffset) {
+            console.log('No GPS IFD pointer found in IFD0');
+            return null;
+        }
+        
+        // Parse GPS IFD
+        console.log(`Parsing GPS IFD at offset: ${gpsIfdOffset}`);
+        const gpsData = parseGpsIFD(buffer, tiffStart + gpsIfdOffset, tiffStart, isLittleEndian);
+        
+        if (!gpsData || Object.keys(gpsData).length === 0) {
+            console.log('No GPS data found in GPS IFD');
+            return null;
+        }
+        
+        console.log('GPS data extracted from GPS IFD:', gpsData);
+        return { gps: gpsData };
         
     } catch (error) {
-        throw new Error(`Failed to extract EXIF metadata from ${filePath}: ${error.message}`);
+        console.error(`Failed to parse EXIF buffer: ${error.message}`);
+        return null;
     }
 }
 
 /**
- * Parse EXIF buffer to extract readable data
- * @param {Buffer} exifBuffer - EXIF data buffer
- * @returns {Object} Parsed EXIF data
- */
-function parseExifBuffer(exifBuffer) {
-    const exifData = {};
-    
-    try {
-        // Use a simple EXIF parser implementation
-        // This parses the most common EXIF tags including GPS data
-        const parsed = parseExifTags(exifBuffer);
-        
-        // Extract GPS-related tags
-        if (parsed.gps) {
-            exifData.gps = parsed.gps;
-        }
-        
-        // Extract timestamp-related tags
-        if (parsed.datetime) {
-            exifData.datetime = parsed.datetime;
-        }
-        
-        // Extract other useful metadata
-        if (parsed.camera) {
-            exifData.camera = parsed.camera;
-        }
-        
-        return exifData;
-    } catch (error) {
-        throw new Error(`Failed to parse EXIF buffer: ${error.message}`);
-    }
-}
-
-/**
- * Parse EXIF tags from buffer
- * @param {Buffer} buffer - EXIF data buffer
- * @returns {Object} Parsed EXIF tags
- */
-function parseExifTags(buffer) {
-    const result = {
-        gps: {},
-        datetime: {},
-        camera: {}
-    };
-    
-    try {
-        // Check for EXIF header
-        if (buffer.length < 8) {
-            return result;
-        }
-        
-        // Simple EXIF parsing - look for GPS tags
-        const dataView = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
-        
-        // Check for TIFF header (0x4949 or 0x4D4D)
-        const tiffHeader = dataView.getUint16(0, true);
-        const littleEndian = tiffHeader === 0x4949;
-        
-        if (tiffHeader !== 0x4949 && tiffHeader !== 0x4D4D) {
-            return result;
-        }
-        
-        // Get IFD offset
-        const ifdOffset = dataView.getUint32(4, littleEndian);
-        
-        if (ifdOffset >= buffer.length) {
-            return result;
-        }
-        
-        // Parse IFD entries
-        parseIFD(dataView, ifdOffset, littleEndian, result);
-        
-        return result;
-        
-    } catch (error) {
-        console.warn('EXIF parsing error:', error.message);
-        return result;
-    }
-}
-
-/**
- * Parse IFD (Image File Directory) entries
- * @param {DataView} dataView - Data view of EXIF buffer
+ * Parse an IFD (Image File Directory)
+ * @param {Buffer} buffer - Image buffer
  * @param {number} offset - IFD offset
- * @param {boolean} littleEndian - Byte order
- * @param {Object} result - Result object to populate
+ * @param {number} tiffStart - TIFF header start offset
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {Object} Parsed IFD data
  */
-function parseIFD(dataView, offset, littleEndian, result) {
+function parseIFD(buffer, offset, tiffStart, isLittleEndian) {
+    const data = {};
+    
     try {
-        if (offset + 2 >= dataView.byteLength) {
-            return;
-        }
+        const entryCount = readValue(buffer, offset, 2, isLittleEndian);
+        offset += 2;
         
-        const entryCount = dataView.getUint16(offset, littleEndian);
-        let entryOffset = offset + 2;
+        console.log(`IFD has ${entryCount} entries`);
         
-        for (let i = 0; i < entryCount && entryOffset + 12 <= dataView.byteLength; i++) {
-            const tag = dataView.getUint16(entryOffset, littleEndian);
-            const type = dataView.getUint16(entryOffset + 2, littleEndian);
-            const count = dataView.getUint32(entryOffset + 4, littleEndian);
-            const valueOffset = dataView.getUint32(entryOffset + 8, littleEndian);
+        for (let i = 0; i < entryCount; i++) {
+            const tag = readValue(buffer, offset, 2, isLittleEndian);
+            const type = readValue(buffer, offset + 2, 2, isLittleEndian);
+            const count = readValue(buffer, offset + 4, 4, isLittleEndian);
+            const valueOffset = readValue(buffer, offset + 8, 4, isLittleEndian);
             
-            // Parse GPS tags
-            parseGpsTag(tag, type, count, valueOffset, dataView, littleEndian, result.gps);
+            // For GPS IFD pointer (tag 0x8825), store the offset directly
+            if (tag === 0x8825) {
+                data[`0x${tag.toString(16).toUpperCase()}`] = valueOffset;
+                console.log(`Found GPS IFD pointer: 0x${tag.toString(16).padStart(4, '0')} -> offset ${valueOffset}`);
+            }
             
-            // Parse datetime tags
-            parseDateTimeTag(tag, type, count, valueOffset, dataView, littleEndian, result.datetime);
-            
-            entryOffset += 12;
-        }
-        
-        // Look for GPS IFD
-        const nextIfdOffset = dataView.getUint32(entryOffset, littleEndian);
-        if (nextIfdOffset > 0 && nextIfdOffset < dataView.byteLength) {
-            parseIFD(dataView, nextIfdOffset, littleEndian, result);
+            offset += 12;
         }
         
     } catch (error) {
-        console.warn('IFD parsing error:', error.message);
+        console.error(`Failed to parse IFD: ${error.message}`);
+    }
+    
+    return data;
+}
+
+/**
+ * Parse GPS IFD specifically for GPS tags
+ * @param {Buffer} buffer - Image buffer
+ * @param {number} offset - GPS IFD offset
+ * @param {number} tiffStart - TIFF header start offset
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {Object} Parsed GPS data
+ */
+function parseGpsIFD(buffer, offset, tiffStart, isLittleEndian) {
+    const gpsData = {};
+    
+    try {
+        const entryCount = readValue(buffer, offset, 2, isLittleEndian);
+        offset += 2;
+        
+        console.log(`GPS IFD has ${entryCount} entries`);
+        
+        for (let i = 0; i < entryCount; i++) {
+            const tag = readValue(buffer, offset, 2, isLittleEndian);
+            const type = readValue(buffer, offset + 2, 2, isLittleEndian);
+            const count = readValue(buffer, offset + 4, 4, isLittleEndian);
+            const valueOffset = readValue(buffer, offset + 8, 4, isLittleEndian);
+            
+            console.log(`GPS tag: 0x${tag.toString(16).padStart(4, '0')}, type: ${type}, count: ${count}, valueOffset: ${valueOffset}`);
+            
+            // Parse GPS tag value
+            const tagName = GPS_TAGS[tag];
+            if (tagName) {
+                const value = parseGpsTagValue(buffer, tag, type, count, valueOffset, tiffStart, isLittleEndian);
+                if (value !== null) {
+                    gpsData[tagName] = value;
+                    console.log(`Parsed GPS tag ${tagName}: ${JSON.stringify(value)}`);
+                }
+            }
+            
+            offset += 12;
+        }
+        
+    } catch (error) {
+        console.error(`Failed to parse GPS IFD: ${error.message}`);
+    }
+    
+    return gpsData;
+}
+
+/**
+ * Get the size in bytes for an EXIF data type
+ * @param {number} type - EXIF data type
+ * @returns {number} Size in bytes
+ */
+function getTypeSize(type) {
+    switch (type) {
+        case 1: // BYTE
+        case 2: // ASCII
+        case 6: // SBYTE
+        case 7: // UNDEFINED
+            return 1;
+        case 3: // SHORT
+        case 8: // SSHORT
+            return 2;
+        case 4: // LONG
+        case 9: // SLONG
+        case 11: // FLOAT
+            return 4;
+        case 5: // RATIONAL
+        case 10: // SRATIONAL
+        case 12: // DOUBLE
+            return 8;
+        default:
+            return 1;
     }
 }
 
 /**
  * Parse GPS-specific EXIF tags
+ * @param {Buffer} buffer - Image buffer
  * @param {number} tag - EXIF tag number
  * @param {number} type - Data type
- * @param {number} count - Value count
- * @param {number} valueOffset - Value offset
- * @param {DataView} dataView - Data view
- * @param {boolean} littleEndian - Byte order
- * @param {Object} gpsData - GPS data object to populate
+ * @param {number} count - Number of values
+ * @param {number} valueOffset - Offset to value data
+ * @param {number} tiffStart - TIFF header start offset
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {*} Parsed tag value
  */
-function parseGpsTag(tag, type, count, valueOffset, dataView, littleEndian, gpsData) {
+function parseGpsTagValue(buffer, tag, type, count, valueOffset, tiffStart, isLittleEndian) {
+    try {
+        const typeSize = getTypeSize(type);
+        const totalSize = typeSize * count;
+        
+        // If data fits in 4 bytes, it's stored in the valueOffset field directly
+        // Otherwise, valueOffset points to the actual data location
+        let dataOffset;
+        if (totalSize <= 4) {
+            // Data is stored directly in the valueOffset field
+            dataOffset = valueOffset;
+            // For little-endian, we need to read from a temporary buffer
+            if (isLittleEndian && totalSize < 4) {
+                const tempBuffer = Buffer.alloc(4);
+                tempBuffer.writeUInt32LE(valueOffset, 0);
+                return parseGpsValue(tempBuffer, 0, tag, type, count, isLittleEndian);
+            } else {
+                const tempBuffer = Buffer.alloc(4);
+                if (isLittleEndian) {
+                    tempBuffer.writeUInt32LE(valueOffset, 0);
+                } else {
+                    tempBuffer.writeUInt32BE(valueOffset, 0);
+                }
+                return parseGpsValue(tempBuffer, 0, tag, type, count, isLittleEndian);
+            }
+        } else {
+            // Data is stored at the offset location
+            dataOffset = tiffStart + valueOffset;
+            return parseGpsValue(buffer, dataOffset, tag, type, count, isLittleEndian);
+        }
+        
+    } catch (error) {
+        console.error(`Failed to parse GPS tag 0x${tag.toString(16)}: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * Parse GPS value based on tag type
+ * @param {Buffer} buffer - Data buffer
+ * @param {number} offset - Data offset
+ * @param {number} tag - GPS tag
+ * @param {number} type - Data type
+ * @param {number} count - Value count
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {*} Parsed value
+ */
+function parseGpsValue(buffer, offset, tag, type, count, isLittleEndian) {
     try {
         switch (tag) {
             case 0x0001: // GPSLatitudeRef
-                gpsData.latitudeRef = readStringValue(dataView, valueOffset, count);
-                break;
-            case 0x0002: // GPSLatitude
-                gpsData.latitude = readRationalArray(dataView, valueOffset, count, littleEndian);
-                break;
             case 0x0003: // GPSLongitudeRef
-                gpsData.longitudeRef = readStringValue(dataView, valueOffset, count);
-                break;
-            case 0x0004: // GPSLongitude
-                gpsData.longitude = readRationalArray(dataView, valueOffset, count, littleEndian);
-                break;
             case 0x0005: // GPSAltitudeRef
-                gpsData.altitudeRef = dataView.getUint8(valueOffset);
+                return String.fromCharCode(buffer[offset]);
+                
+            case 0x0002: // GPSLatitude
+            case 0x0004: // GPSLongitude
+                if (type === 5 && count === 3) { // RATIONAL, 3 values (degrees, minutes, seconds)
+                    const degrees = readRational(buffer, offset, isLittleEndian);
+                    const minutes = readRational(buffer, offset + 8, isLittleEndian);
+                    const seconds = readRational(buffer, offset + 16, isLittleEndian);
+                    return [degrees, minutes, seconds];
+                }
                 break;
+                
             case 0x0006: // GPSAltitude
-                gpsData.altitude = readRational(dataView, valueOffset, littleEndian);
+                if (type === 5) { // RATIONAL
+                    return readRational(buffer, offset, isLittleEndian);
+                }
                 break;
-            case 0x0010: // GPSImgDirection
-                gpsData.bearing = readRational(dataView, valueOffset, littleEndian);
+                
+            case 0x0007: // GPSTimeStamp
+                if (type === 5 && count === 3) { // RATIONAL, 3 values (hours, minutes, seconds)
+                    const hours = readRational(buffer, offset, isLittleEndian);
+                    const minutes = readRational(buffer, offset + 8, isLittleEndian);
+                    const seconds = readRational(buffer, offset + 16, isLittleEndian);
+                    return [hours, minutes, seconds];
+                }
                 break;
-            case 0x001F: // GPSHPositioningError
-                gpsData.accuracy = readRational(dataView, valueOffset, littleEndian);
-                break;
-        }
-    } catch (error) {
-        console.warn(`GPS tag ${tag} parsing error:`, error.message);
-    }
-}
-
-/**
- * Parse datetime-specific EXIF tags
- * @param {number} tag - EXIF tag number
- * @param {number} type - Data type
- * @param {number} count - Value count
- * @param {number} valueOffset - Value offset
- * @param {DataView} dataView - Data view
- * @param {boolean} littleEndian - Byte order
- * @param {Object} datetimeData - Datetime data object to populate
- */
-function parseDateTimeTag(tag, type, count, valueOffset, dataView, littleEndian, datetimeData) {
-    try {
-        switch (tag) {
-            case 0x0132: // DateTime
-                datetimeData.dateTime = readStringValue(dataView, valueOffset, count);
-                break;
-            case 0x9003: // DateTimeOriginal
-                datetimeData.dateTimeOriginal = readStringValue(dataView, valueOffset, count);
-                break;
-            case 0x9004: // DateTimeDigitized
-                datetimeData.dateTimeDigitized = readStringValue(dataView, valueOffset, count);
+                
+            case 0x001D: // GPSDateStamp
+                if (type === 2) { // ASCII
+                    let dateStr = '';
+                    for (let i = 0; i < count - 1; i++) { // -1 to exclude null terminator
+                        dateStr += String.fromCharCode(buffer[offset + i]);
+                    }
+                    return dateStr;
+                }
                 break;
         }
+        
+        return null;
+        
     } catch (error) {
-        console.warn(`DateTime tag ${tag} parsing error:`, error.message);
-    }
-}
-
-/**
- * Read rational value (fraction) from EXIF data
- * @param {DataView} dataView - Data view
- * @param {number} offset - Value offset
- * @param {boolean} littleEndian - Byte order
- * @returns {number} Decimal value
- */
-function readRational(dataView, offset, littleEndian) {
-    if (offset + 8 > dataView.byteLength) {
+        console.error(`Failed to parse GPS value for tag 0x${tag.toString(16)}: ${error.message}`);
         return null;
     }
-    
-    const numerator = dataView.getUint32(offset, littleEndian);
-    const denominator = dataView.getUint32(offset + 4, littleEndian);
-    
+}
+
+/**
+ * Read a rational value (fraction) from buffer
+ * @param {Buffer} buffer - Data buffer
+ * @param {number} offset - Data offset
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {number} Decimal value
+ */
+function readRational(buffer, offset, isLittleEndian) {
+    const numerator = readValue(buffer, offset, 4, isLittleEndian);
+    const denominator = readValue(buffer, offset + 4, 4, isLittleEndian);
     return denominator !== 0 ? numerator / denominator : 0;
 }
 
 /**
- * Read array of rational values from EXIF data
- * @param {DataView} dataView - Data view
- * @param {number} offset - Value offset
- * @param {number} count - Number of values
- * @param {boolean} littleEndian - Byte order
- * @returns {Array} Array of decimal values
+ * Read a value from buffer with specified byte order
+ * @param {Buffer} buffer - Data buffer
+ * @param {number} offset - Data offset
+ * @param {number} size - Value size in bytes
+ * @param {boolean} isLittleEndian - Byte order
+ * @returns {number} Read value
  */
-function readRationalArray(dataView, offset, count, littleEndian) {
-    const values = [];
-    
-    for (let i = 0; i < count && offset + (i * 8) + 8 <= dataView.byteLength; i++) {
-        const rational = readRational(dataView, offset + (i * 8), littleEndian);
-        if (rational !== null) {
-            values.push(rational);
-        }
+function readValue(buffer, offset, size, isLittleEndian) {
+    switch (size) {
+        case 1:
+            return buffer[offset];
+        case 2:
+            return isLittleEndian ? buffer.readUInt16LE(offset) : buffer.readUInt16BE(offset);
+        case 4:
+            return isLittleEndian ? buffer.readUInt32LE(offset) : buffer.readUInt32BE(offset);
+        default:
+            throw new Error(`Unsupported value size: ${size}`);
     }
-    
-    return values;
 }
 
 /**
- * Read string value from EXIF data
- * @param {DataView} dataView - Data view
- * @param {number} offset - Value offset
- * @param {number} length - String length
- * @returns {string} String value
+ * Convert GPS EXIF data to decimal coordinates
+ * @param {Object} gpsData - Raw GPS EXIF data
+ * @returns {Object|null} Decimal coordinates
  */
-function readStringValue(dataView, offset, length) {
-    if (offset + length > dataView.byteLength) {
-        return '';
-    }
-    
-    const bytes = new Uint8Array(dataView.buffer, dataView.byteOffset + offset, length);
-    return String.fromCharCode(...bytes).replace(/\0/g, '');
-}
-
-/**
- * Extract GPS coordinates from parsed EXIF data
- * @param {Object} exifData - Parsed EXIF data
- * @returns {Object|null} GPS coordinates or null if not found
- */
-function extractGpsFromExif(exifData) {
+function convertGpsToDecimal(gpsData) {
     try {
-        if (!exifData || !exifData.gps) {
+        const {
+            GPSLatitude,
+            GPSLatitudeRef,
+            GPSLongitude,
+            GPSLongitudeRef,
+            GPSAltitude,
+            GPSAltitudeRef
+        } = gpsData;
+        
+        if (!GPSLatitude || !GPSLatitudeRef || !GPSLongitude || !GPSLongitudeRef) {
+            console.log('Missing required GPS coordinate data');
             return null;
         }
         
-        const gps = exifData.gps;
+        // Handle different GPS coordinate formats
+        let latitude, longitude;
         
-        // Check if we have the minimum required GPS data
-        if (!gps.latitude || !gps.longitude || !gps.latitudeRef || !gps.longitudeRef) {
+        if (GPSLatitude.length === 3) {
+            // Standard DMS format: [degrees, minutes, seconds]
+            latitude = dmsToDecimal(GPSLatitude, GPSLatitudeRef);
+        } else if (GPSLatitude.length === 2) {
+            // Decimal minutes format: [degrees, decimal_minutes]
+            const degrees = GPSLatitude[0];
+            const decimalMinutes = GPSLatitude[1];
+            const minutes = Math.floor(decimalMinutes);
+            const seconds = (decimalMinutes - minutes) * 60;
+            latitude = dmsToDecimal([degrees, minutes, seconds], GPSLatitudeRef);
+        } else {
+            console.error(`Invalid GPS latitude format: ${JSON.stringify(GPSLatitude)}`);
             return null;
         }
         
-        // Convert DMS (Degrees, Minutes, Seconds) to decimal degrees
-        const latitude = convertDmsToDecimal(gps.latitude, gps.latitudeRef);
-        const longitude = convertDmsToDecimal(gps.longitude, gps.longitudeRef);
-        
-        if (latitude === null || longitude === null) {
+        if (GPSLongitude.length === 3) {
+            // Standard DMS format: [degrees, minutes, seconds]
+            longitude = dmsToDecimal(GPSLongitude, GPSLongitudeRef);
+        } else if (GPSLongitude.length === 2) {
+            // Decimal minutes format: [degrees, decimal_minutes]
+            const degrees = GPSLongitude[0];
+            const decimalMinutes = GPSLongitude[1];
+            const minutes = Math.floor(decimalMinutes);
+            const seconds = (decimalMinutes - minutes) * 60;
+            longitude = dmsToDecimal([degrees, minutes, seconds], GPSLongitudeRef);
+        } else {
+            console.error(`Invalid GPS longitude format: ${JSON.stringify(GPSLongitude)}`);
             return null;
         }
         
-        // Validate coordinates
-        if (!isValidCoordinatePair(latitude, longitude)) {
-            return null;
-        }
-        
-        // Build GPS data object
-        const gpsData = {
+        const result = {
             latitude: latitude,
-            longitude: longitude,
-            altitude: null,
-            bearing: null,
-            accuracy: null,
-            timestamp: null
+            longitude: longitude
         };
         
         // Add altitude if available
-        if (gps.altitude !== undefined && gps.altitude !== null) {
-            gpsData.altitude = gps.altitude;
-            // Apply altitude reference (0 = above sea level, 1 = below sea level)
-            if (gps.altitudeRef === 1) {
-                gpsData.altitude = -gpsData.altitude;
+        if (GPSAltitude !== undefined) {
+            result.altitude = GPSAltitudeRef === '\x00' ? GPSAltitude : -GPSAltitude;
+        }
+        
+        console.log(`Converted GPS coordinates: ${latitude}, ${longitude}`);
+        return result;
+        
+    } catch (error) {
+        console.error(`Failed to convert GPS coordinates: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * Extract GPS coordinates using exiftool as fallback
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<Object|null>} GPS coordinates or null if not found
+ */
+async function extractGpsWithExiftool(filePath) {
+    try {
+        const { stdout } = await execAsync(`exiftool -GPS* -j "${filePath}"`);
+        const data = JSON.parse(stdout);
+        
+        if (!data || data.length === 0) {
+            return null;
+        }
+        
+        const gpsInfo = data[0];
+        const lat = gpsInfo.GPSLatitude;
+        const lon = gpsInfo.GPSLongitude;
+        
+        if (lat && lon && isValidCoordinatePair(lat, lon)) {
+            const result = { latitude: lat, longitude: lon };
+            
+            if (gpsInfo.GPSAltitude) {
+                result.altitude = gpsInfo.GPSAltitude;
             }
-        }
-        
-        // Add bearing if available
-        if (gps.bearing !== undefined && gps.bearing !== null) {
-            gpsData.bearing = gps.bearing;
-        }
-        
-        // Add accuracy if available
-        if (gps.accuracy !== undefined && gps.accuracy !== null) {
-            gpsData.accuracy = gps.accuracy;
-        }
-        
-        return gpsData;
-        
-    } catch (error) {
-        console.warn('GPS extraction error:', error.message);
-        return null;
-    }
-}
-
-/**
- * Convert DMS (Degrees, Minutes, Seconds) to decimal degrees
- * @param {Array} dmsArray - Array of [degrees, minutes, seconds]
- * @param {string} ref - Reference (N/S for latitude, E/W for longitude)
- * @returns {number|null} Decimal degrees or null if invalid
- */
-function convertDmsToDecimal(dmsArray, ref) {
-    try {
-        if (!Array.isArray(dmsArray) || dmsArray.length < 3) {
-            return null;
-        }
-        
-        const degrees = dmsArray[0] || 0;
-        const minutes = dmsArray[1] || 0;
-        const seconds = dmsArray[2] || 0;
-        
-        let decimal = degrees + (minutes / 60) + (seconds / 3600);
-        
-        // Apply reference direction
-        if (ref === 'S' || ref === 'W') {
-            decimal = -decimal;
-        }
-        
-        return decimal;
-        
-    } catch (error) {
-        console.warn('DMS conversion error:', error.message);
-        return null;
-    }
-}
-
-/**
- * Extract timestamp information from parsed EXIF data
- * @param {Object} exifData - Parsed EXIF data
- * @returns {Object|null} Timestamp data or null if not found
- */
-function extractTimestampFromExif(exifData) {
-    try {
-        if (!exifData || !exifData.datetime) {
-            return null;
-        }
-        
-        const datetime = exifData.datetime;
-        const timestampData = {};
-        
-        // Try to parse DateTimeOriginal first (most accurate for photos)
-        if (datetime.dateTimeOriginal) {
-            const parsed = parseExifDateTime(datetime.dateTimeOriginal);
-            if (parsed) {
-                timestampData.dateTime = parsed.toISOString();
-                timestampData.source = 'DateTimeOriginal';
-                return timestampData;
-            }
-        }
-        
-        // Fallback to DateTimeDigitized
-        if (datetime.dateTimeDigitized) {
-            const parsed = parseExifDateTime(datetime.dateTimeDigitized);
-            if (parsed) {
-                timestampData.dateTime = parsed.toISOString();
-                timestampData.source = 'DateTimeDigitized';
-                return timestampData;
-            }
-        }
-        
-        // Fallback to DateTime
-        if (datetime.dateTime) {
-            const parsed = parseExifDateTime(datetime.dateTime);
-            if (parsed) {
-                timestampData.dateTime = parsed.toISOString();
-                timestampData.source = 'DateTime';
-                return timestampData;
-            }
+            
+            return result;
         }
         
         return null;
         
     } catch (error) {
-        console.warn('Timestamp extraction error:', error.message);
+        console.warn(`exiftool GPS extraction failed: ${error.message}`);
         return null;
     }
 }
 
 /**
- * Parse EXIF datetime string to Date object
- * @param {string} exifDateTime - EXIF datetime string (format: "YYYY:MM:DD HH:MM:SS")
- * @returns {Date|null} Parsed date or null if invalid
- */
-function parseExifDateTime(exifDateTime) {
-    try {
-        if (!exifDateTime || typeof exifDateTime !== 'string') {
-            return null;
-        }
-        
-        // EXIF datetime format: "YYYY:MM:DD HH:MM:SS"
-        const match = exifDateTime.match(/^(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})$/);
-        
-        if (!match) {
-            return null;
-        }
-        
-        const [, year, month, day, hour, minute, second] = match;
-        
-        // Create date object (month is 0-based in JavaScript)
-        const date = new Date(
-            parseInt(year, 10),
-            parseInt(month, 10) - 1,
-            parseInt(day, 10),
-            parseInt(hour, 10),
-            parseInt(minute, 10),
-            parseInt(second, 10)
-        );
-        
-        // Validate the date
-        if (isNaN(date.getTime())) {
-            return null;
-        }
-        
-        return date;
-        
-    } catch (error) {
-        console.warn('EXIF datetime parsing error:', error.message);
-        return null;
-    }
-}
-
-/**
- * Get image timestamp from file metadata or EXIF
- * @param {string} filePath - Path to the image file
- * @returns {Date|null} Image timestamp or null if not available
- */
-export async function getImageTimestamp(filePath) {
-    try {
-        // First try to get timestamp from EXIF
-        const exifData = await extractExifMetadata(filePath);
-        
-        if (exifData.timestamp && exifData.timestamp.dateTime) {
-            return new Date(exifData.timestamp.dateTime);
-        }
-        
-        // Fallback to file modification time
-        const stats = fs.statSync(filePath);
-        return stats.mtime;
-        
-    } catch (error) {
-        console.warn(`Warning: Failed to get timestamp for ${filePath}: ${error.message}`);
-        return null;
-    }
-}
-
-/**
- * Extract GPS coordinates directly from image file
- * @param {string} filePath - Path to the image file
- * @returns {Object|null} GPS data or null if not found
- */
-export async function extractGpsFromImage(filePath) {
-    try {
-        const exifData = await extractExifMetadata(filePath);
-        
-        if (!exifData.gps) {
-            return null;
-        }
-        
-        const gpsData = extractGpsFromExif(exifData);
-        
-        if (gpsData) {
-            // Add timestamp from EXIF if available
-            const timestampData = extractTimestampFromExif(exifData);
-            if (timestampData && timestampData.dateTime) {
-                gpsData.timestamp = timestampData.dateTime;
-            }
-        }
-        
-        return gpsData;
-        
-    } catch (error) {
-        console.warn(`Warning: Failed to extract GPS from ${filePath}: ${error.message}`);
-        return null;
-    }
-}
-
-/**
- * Check if image has GPS coordinates in EXIF
- * @param {string} filePath - Path to the image file
- * @returns {boolean} True if image has GPS coordinates
- */
-export async function hasGpsCoordinates(filePath) {
-    try {
-        const gpsData = await extractGpsFromImage(filePath);
-        return gpsData !== null && 
-               typeof gpsData.latitude === 'number' && 
-               typeof gpsData.longitude === 'number' &&
-               isValidCoordinatePair(gpsData.latitude, gpsData.longitude);
-    } catch (error) {
-        console.warn(`Warning: Failed to check GPS coordinates for ${filePath}: ${error.message}`);
-        return false;
-    }
-}
-
-/**
- * Write GPS coordinates to image EXIF data using hybrid approach
- * @param {string} filePath - Path to the image file
+ * Write GPS coordinates to image file using exiftool
+ * @param {string} filePath - Path to image file
  * @param {number} latitude - Latitude in decimal degrees
  * @param {number} longitude - Longitude in decimal degrees
- * @param {string} outputPath - Optional output path (defaults to overwriting original)
- * @returns {boolean} True if successful
+ * @param {number} [altitude] - Altitude in meters
+ * @returns {Promise<boolean>} Success status
  */
-export async function writeGpsToExif(filePath, latitude, longitude, outputPath = null) {
+export async function writeGpsCoordinates(filePath, latitude, longitude, altitude = null) {
     try {
         if (!isValidCoordinatePair(latitude, longitude)) {
-            throw new Error('Invalid GPS coordinates provided');
+            throw new Error('Invalid GPS coordinates');
         }
         
-        const targetPath = outputPath || filePath;
+        let command = `exiftool -overwrite_original -GPS:GPSLatitude="${latitude}" -GPS:GPSLongitude="${longitude}"`;
         
-        // Try piexifjs first (JavaScript-based approach)
-        const piexifSuccess = await writeGpsWithPiexif(filePath, latitude, longitude, targetPath);
-        if (piexifSuccess) {
-            console.log(`📍 GPS coordinates written via piexifjs to ${targetPath}: ${latitude}, ${longitude}`);
-            return true;
+        if (altitude !== null) {
+            command += ` -GPS:GPSAltitude="${altitude}"`;
         }
         
-        // Fallback to exiftool if piexifjs fails
-        const exiftoolSuccess = await writeGpsWithExiftool(filePath, latitude, longitude, targetPath);
-        if (exiftoolSuccess) {
-            console.log(`📍 GPS coordinates written via exiftool to ${targetPath}: ${latitude}, ${longitude}`);
-            return true;
-        }
-        
-        // If both methods fail, log warning but don't throw error
-        console.warn(`⚠️  Failed to write GPS coordinates to ${targetPath} - both piexifjs and exiftool failed`);
-        return false;
-        
-    } catch (error) {
-        throw new Error(`Failed to write GPS coordinates to ${filePath}: ${error.message}`);
-    }
-}
-
-/**
- * Validate Unix epoch timestamp
- * @param {Date|number} timestamp - Timestamp to validate
- * @returns {boolean} True if timestamp is after Unix epoch
- */
-export function isValidTimestamp(timestamp) {
-    try {
-        const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
-        const unixEpoch = new Date('1970-01-01T00:00:00Z');
-        
-        return date instanceof Date && 
-               !isNaN(date.getTime()) && 
-               date > unixEpoch;
-    } catch (error) {
-        return false;
-    }
-}
-
-/**
- * Get file statistics including creation and modification times
- * @param {string} filePath - Path to the file
- * @returns {Object} File statistics
- */
-export function getFileStats(filePath) {
-    try {
-        const stats = fs.statSync(filePath);
-        return {
-            size: stats.size,
-            created: stats.birthtime,
-            modified: stats.mtime,
-            accessed: stats.atime,
-            isFile: stats.isFile(),
-            isDirectory: stats.isDirectory()
-        };
-    } catch (error) {
-        throw new Error(`Failed to get file stats for ${filePath}: ${error.message}`);
-    }
-}
-
-/**
- * Create a backup of an image file before modification
- * @param {string} filePath - Path to the original file
- * @returns {string} Path to the backup file
- */
-export async function createBackup(filePath) {
-    try {
-        const dir = path.dirname(filePath);
-        const name = path.basename(filePath, path.extname(filePath));
-        const ext = path.extname(filePath);
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        
-        const backupPath = path.join(dir, `${name}_backup_${timestamp}${ext}`);
-        
-        await fs.promises.copyFile(filePath, backupPath);
-        return backupPath;
-        
-    } catch (error) {
-        throw new Error(`Failed to create backup for ${filePath}: ${error.message}`);
-    }
-}
-
-/**
- * Write GPS coordinates using piexifjs library
- * @param {string} filePath - Source file path
- * @param {number} latitude - Latitude in decimal degrees
- * @param {number} longitude - Longitude in decimal degrees
- * @param {string} targetPath - Target file path
- * @returns {boolean} True if successful
- */
-async function writeGpsWithPiexif(filePath, latitude, longitude, targetPath) {
-    try {
-        // Dynamic import to handle optional dependency
-        const piexif = (await import('piexifjs')).default;
-        
-        // Read the image file
-        const imageBuffer = fs.readFileSync(filePath);
-        const imageDataUrl = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
-        
-        // Get existing EXIF data or create new
-        let exifDict;
-        try {
-            exifDict = piexif.load(imageDataUrl);
-        } catch (error) {
-            // Create new EXIF dict if none exists
-            exifDict = { '0th': {}, 'Exif': {}, 'GPS': {}, '1st': {}, 'thumbnail': null };
-        }
-        
-        // Convert decimal degrees to DMS format for EXIF
-        const latDms = decimalToDms(latitude, true);
-        const lngDms = decimalToDms(longitude, false);
-        
-        // Set GPS data in EXIF
-        exifDict.GPS[piexif.GPSIFD.GPSVersionID] = [2, 3, 0, 0];
-        exifDict.GPS[piexif.GPSIFD.GPSLatitudeRef] = latDms.ref;
-        exifDict.GPS[piexif.GPSIFD.GPSLatitude] = [
-            [latDms.degrees, 1],
-            [Math.floor(latDms.minutes), 1],
-            [Math.floor(latDms.seconds * 1000), 1000]
-        ];
-        exifDict.GPS[piexif.GPSIFD.GPSLongitudeRef] = lngDms.ref;
-        exifDict.GPS[piexif.GPSIFD.GPSLongitude] = [
-            [lngDms.degrees, 1],
-            [Math.floor(lngDms.minutes), 1],
-            [Math.floor(lngDms.seconds * 1000), 1000]
-        ];
-        
-        // Convert back to binary
-        const exifBytes = piexif.dump(exifDict);
-        const newImageDataUrl = piexif.insert(exifBytes, imageDataUrl);
-        
-        // Extract base64 data and write to file
-        const base64Data = newImageDataUrl.replace(/^data:image\/[a-z]+;base64,/, '');
-        const outputBuffer = Buffer.from(base64Data, 'base64');
-        
-        fs.writeFileSync(targetPath, outputBuffer);
-        return true;
-        
-    } catch (error) {
-        console.warn(`piexifjs GPS writing failed: ${error.message}`);
-        return false;
-    }
-}
-
-/**
- * Write GPS coordinates using exiftool command-line tool
- * @param {string} filePath - Source file path
- * @param {number} latitude - Latitude in decimal degrees
- * @param {number} longitude - Longitude in decimal degrees
- * @param {string} targetPath - Target file path
- * @returns {boolean} True if successful
- */
-async function writeGpsWithExiftool(filePath, latitude, longitude, targetPath) {
-    try {
-        // Check if exiftool is available
-        try {
-            await execAsync('exiftool -ver');
-        } catch (error) {
-            console.warn('exiftool not found in PATH');
-            return false;
-        }
-        
-        // Copy file if source and target are different
-        if (filePath !== targetPath) {
-            fs.copyFileSync(filePath, targetPath);
-        }
-        
-        // Format coordinates for exiftool
-        const latRef = latitude >= 0 ? 'N' : 'S';
-        const lngRef = longitude >= 0 ? 'E' : 'W';
-        const absLat = Math.abs(latitude);
-        const absLng = Math.abs(longitude);
-        
-        // Build exiftool command
-        const command = [
-            'exiftool',
-            '-overwrite_original',
-            `-GPSLatitude=${absLat}`,
-            `-GPSLatitudeRef=${latRef}`,
-            `-GPSLongitude=${absLng}`,
-            `-GPSLongitudeRef=${lngRef}`,
-            '-GPSVersionID="2.3.0.0"',
-            `"${targetPath}"`
-        ].join(' ');
+        command += ` "${filePath}"`;
         
         await execAsync(command);
+        console.log(`GPS coordinates written to ${filePath}`);
         return true;
         
     } catch (error) {
         console.warn(`exiftool GPS writing failed: ${error.message}`);
         return false;
     }
+}
+
+/**
+ * Check if a file is a supported image format
+ * @param {string} filePath - Path to the file
+ * @returns {boolean} True if the file is a supported image format
+ */
+export function isSupportedImageFile(filePath) {
+    const supportedExtensions = ['.jpg', '.jpeg', '.tiff', '.tif', '.cr3', '.cr2', '.nef', '.arw', '.dng'];
+    const ext = path.extname(filePath).toLowerCase();
+    return supportedExtensions.includes(ext);
+}
+
+/**
+ * Extract EXIF metadata from image file
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<Object|null>} EXIF metadata or null if extraction fails
+ */
+export async function extractExifMetadata(filePath) {
+    try {
+        const buffer = await fs.promises.readFile(filePath);
+        return parseExifBuffer(buffer);
+    } catch (error) {
+        console.warn(`Failed to extract EXIF metadata from ${filePath}: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * Get image timestamp from EXIF data
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<Date|null>} Image timestamp or null if not found
+ */
+export async function getImageTimestamp(filePath) {
+    try {
+        const { stdout } = await execAsync(`exiftool -DateTimeOriginal -CreateDate -DateTime -j "${filePath}"`);
+        const data = JSON.parse(stdout);
+        
+        if (!data || data.length === 0) {
+            return null;
+        }
+        
+        const exifData = data[0];
+        
+        // Try different timestamp fields in order of preference
+        const timestampFields = ['DateTimeOriginal', 'CreateDate', 'DateTime'];
+        
+        for (const field of timestampFields) {
+            if (exifData[field]) {
+                const timestamp = new Date(exifData[field].replace(/:/g, '-').replace(/-/, ':').replace(/-/, ':'));
+                if (!isNaN(timestamp.getTime())) {
+                    return timestamp;
+                }
+            }
+        }
+        
+        return null;
+        
+    } catch (error) {
+        console.warn(`Failed to get image timestamp from ${filePath}: ${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * Check if image has GPS coordinates
+ * @param {string} filePath - Path to image file
+ * @returns {Promise<boolean>} True if image has GPS coordinates
+ */
+export async function hasGpsCoordinates(filePath) {
+    const coordinates = await extractGpsCoordinates(filePath);
+    return coordinates !== null;
 }
