@@ -1,0 +1,30 @@
+{
+  "name": "image-geolocation-processor",
+  "version": "1.0.0",
+  "description": "A comprehensive Node.js application that processes image geolocation using Google Maps timeline data and temporal interpolation",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "image",
+    "geolocation",
+    "exif",
+    "gps",
+    "timeline",
+    "interpolation",
+    "maps"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.33.2",
+    "readline-sync": "^1.4.10"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
