@@ -29,6 +29,13 @@ A comprehensive Node.js application that processes image geolocation using Googl
   - Support for all major image formats including Canon CR3
   - Reliable GPS metadata injection with comprehensive error handling
 
+- **Timeline Augmentation System**
+  - Automatically extracts GPS coordinates from images and adds them to timeline data
+  - Smart duplicate detection prevents redundant timeline entries
+  - Proximity-based filtering (configurable distance and time tolerances)
+  - Automatic backup creation before timeline modification
+  - Expands timeline coverage for better interpolation accuracy
+
 - **Advanced Features**
   - Timezone handling with EXIF extraction and system fallback
   - Weighted interpolation based on temporal and spatial distance
@@ -74,11 +81,12 @@ npm start
 
 The application will:
 
-1. Prompt you for a target directory path
+1. Prompt you for a target directory path (defaults to `~/pics` if you press Enter)
 2. Validate the directory exists and is accessible
 3. Discover and index all images in the directory (recursively)
-4. Process images that lack GPS coordinates but have valid timestamps
-5. Generate a comprehensive statistics report
+4. Extract GPS coordinates from images and augment timeline data (if enabled)
+5. Process images that lack GPS coordinates but have valid timestamps
+6. Generate a comprehensive statistics report
 
 ### Development Mode
 
@@ -90,16 +98,18 @@ npm run dev
 
 ### Command Line Interface
 
-The application provides an interactive command-line interface:
+The application provides an interactive command-line interface with a convenient default directory option:
 
 ```
 === Image Geolocation Processor ===
 This application will process images in a directory and add GPS coordinates using timeline data.
 
-Enter the target directory path: /path/to/your/images
-📁 Target directory: /path/to/your/images
+Enter the target directory path (default: /Users/username/pics): 
+📁 Target directory: /Users/username/pics
 Proceed with this directory? [y/N] y
 ```
+
+**Default Directory**: Simply press Enter (return) with no input to use `~/pics` as the target directory. This provides a convenient default for users who store their images in a standard location.
 
 ## Configuration
 
@@ -112,6 +122,13 @@ this.config = {
     secondaryTimeWindow: 4,     // Secondary interpolation time window (hours)
     batchSize: 10,              // Images to process in parallel
     createBackups: false,       // Create backups before modifying images
+    timelineAugmentation: {
+        enabled: true,          // Enable timeline augmentation from image GPS data
+        exactTimeTolerance: 2,  // Minutes for exact duplicate detection
+        proximityDistanceTolerance: 50,  // Meters for proximity duplicate detection
+        proximityTimeTolerance: 10,      // Minutes for proximity duplicate detection
+        createBackup: true      // Create backup of timeline file before modification
+    },
     geolocationDatabase: {
         enableSqlitePersistence: false,    // Enable SQLite database persistence
         sqliteDbPath: 'data/geolocation.db',  // SQLite database file path
@@ -131,6 +148,35 @@ The application expects Google Maps timeline data in JSON format. Export your lo
 3. Choose JSON format
 4. Download and extract the archive
 5. Place the `Timeline Edits.json` file in the `data/` directory
+
+## Timeline Augmentation
+
+The timeline augmentation feature automatically extracts GPS coordinates from images that already contain location data and adds them to your timeline file. This expands your timeline coverage and improves interpolation accuracy for images without GPS data.
+
+### How It Works
+
+1. **GPS Extraction**: During Phase 1, the application identifies images with existing GPS coordinates in their EXIF data
+2. **Duplicate Detection**: Before adding to timeline, the system checks for duplicates using:
+   - **Exact matching**: Same timestamp (±2 minutes) and location (±10 meters)
+   - **Proximity matching**: Similar timestamp (±10 minutes) and location (±50 meters)
+3. **Timeline Integration**: New GPS records are converted to Google Maps timeline format and merged with existing data
+4. **Backup Creation**: Original timeline file is automatically backed up before modification
+5. **Sorted Output**: Final timeline is sorted chronologically for optimal processing
+
+### Benefits
+
+- **Extended Coverage**: Images with GPS data fill gaps in your timeline, especially useful when your timeline data doesn't cover the full date range of your images
+- **Better Interpolation**: More timeline points result in more accurate GPS coordinate interpolation for images without location data
+- **Automatic Processing**: No manual intervention required - the system handles everything automatically
+- **Data Safety**: Automatic backups ensure your original timeline data is preserved
+
+### Configuration Options
+
+- `enabled`: Enable/disable timeline augmentation (default: true)
+- `exactTimeTolerance`: Time tolerance for exact duplicate detection in minutes (default: 2)
+- `proximityDistanceTolerance`: Distance tolerance for proximity duplicate detection in meters (default: 50)
+- `proximityTimeTolerance`: Time tolerance for proximity duplicate detection in minutes (default: 10)
+- `createBackup`: Create backup of timeline file before modification (default: true)
 
 ### Timeline Data Structure
 
@@ -170,7 +216,8 @@ The application parses timeline data with the following structure:
    - First checks geolocation database for existing GPS data
    - Extracts EXIF GPS metadata if not in database
    - Stores new GPS data for future runs
-5. **Indexing**: Creates a comprehensive metadata index keyed by file paths
+5. **Timeline Augmentation**: Extracts GPS coordinates from images and adds them to timeline data (if enabled)
+6. **Indexing**: Creates a comprehensive metadata index keyed by file paths
 
 ### Phase 2: Geolocation Inference
 

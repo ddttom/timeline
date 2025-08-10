@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "exportDate": "2025-08-10T19:03:37.456Z",
+    "totalRecords": 0,
+    "sourceBreakdown": {
+      "DATABASE": 0,
+      "EXIF_GPS": 0,
+      "TIMELINE_INTERPOLATED": 0,
+      "NEARBY_INTERPOLATED": 0
+    },
+    "coordinateSystem": "WGS84",
+    "version": "1.0.0"
+  },
+  "records": []
+}

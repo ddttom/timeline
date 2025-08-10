@@ -14,6 +14,7 @@ import { writeGpsToExif, isValidTimestamp, extractGpsFromImage } from './service
 import { StatisticsCollector, displayStatisticsReport, exportStatisticsReport } from './services/statistics.js';
 import { isValidCoordinatePair } from './utils/coordinates.js';
 import { createGeolocationDatabase, GPS_SOURCES } from './services/geolocationDatabase.js';
+import { createTimelineAugmentationService } from './services/timelineAugmentation.js';
 
 /**
  * Main application class
@@ -29,6 +30,13 @@ class ImageGeolocationProcessor {
             secondaryTimeWindow: 4, // hours
             batchSize: 10, // images to process in parallel
             createBackups: false, // set to true to create backups before modifying images
+            timelineAugmentation: {
+                enabled: true, // enable timeline augmentation from image GPS data
+                exactTimeTolerance: 2, // minutes for exact duplicate detection
+                proximityDistanceTolerance: 50, // meters for proximity duplicate detection
+                proximityTimeTolerance: 10, // minutes for proximity duplicate detection
+                createBackup: true // create backup of timeline file before modification
+            },
             geolocationDatabase: {
                 enableSqlitePersistence: false,
                 sqliteDbPath: 'data/geolocation.db',
@@ -109,6 +117,12 @@ class ImageGeolocationProcessor {
             console.log('\n🗄️  Step 3: GPS extraction with database priority...');
             await this.extractGpsWithPriority();
             
+            // Step 4: Timeline augmentation from image GPS data
+            if (this.config.timelineAugmentation.enabled) {
+                console.log('\n📍 Step 4: Timeline augmentation from image GPS data...');
+                await this.augmentTimelineFromImages();
+            }
+            
             // Calculate statistics from index
             let totalSize = 0;
             let imagesWithGps = 0;
@@ -144,6 +158,52 @@ class ImageGeolocationProcessor {
             throw new Error(`Phase 1 failed: ${error.message}`);
         } finally {
             this.stats.recordProcessingTime('discovery', Date.now() - phaseStartTime);
+        }
+    }
+    
+    /**
+     * Augment timeline data with GPS coordinates from images
+     */
+    async augmentTimelineFromImages() {
+        try {
+            // Create timeline augmentation service with configuration
+            const augmentationConfig = {
+                exactTimeTolerance: this.config.timelineAugmentation.exactTimeTolerance * 60 * 1000, // convert to ms
+                proximityDistanceTolerance: this.config.timelineAugmentation.proximityDistanceTolerance,
+                proximityTimeTolerance: this.config.timelineAugmentation.proximityTimeTolerance * 60 * 1000, // convert to ms
+                createBackup: this.config.timelineAugmentation.createBackup
+            };
+            
+            const augmentationService = createTimelineAugmentationService(augmentationConfig);
+            
+            // Augment timeline with image GPS data
+            const augmentationReport = await augmentationService.augmentTimelineFromImages(
+                this.timelineFilePath,
+                this.imageIndex
+            );
+            
+            // Log augmentation results
+            if (augmentationReport.summary.newRecordsAdded > 0) {
+                console.log(`   ✅ Timeline augmentation successful:`);
+                console.log(`      ➕ New records added: ${augmentationReport.summary.newRecordsAdded}`);
+                console.log(`      ⏭️  Duplicates skipped: ${augmentationReport.summary.totalSkipped}`);
+                console.log(`      📸 Images processed: ${augmentationReport.summary.imagesProcessed}`);
+                console.log(`      🗺️  Images with GPS: ${augmentationReport.summary.imagesWithGps}`);
+            } else {
+                console.log(`   ℹ️  No new timeline records added (${augmentationReport.summary.totalSkipped} duplicates skipped)`);
+            }
+            
+            // Log any errors
+            if (augmentationReport.errors && augmentationReport.errors.length > 0) {
+                console.log(`   ⚠️  Augmentation warnings:`);
+                augmentationReport.errors.forEach(error => {
+                    console.log(`      • ${error}`);
+                });
+            }
+            
+        } catch (error) {
+            console.warn(`   ⚠️  Timeline augmentation failed: ${error.message}`);
+            // Don't throw - this is not critical to the main processing
         }
     }
     
@@ -554,6 +614,7 @@ class ImageGeolocationProcessor {
                         metadata.hasGpsCoordinates = true;
                         metadata.needsGeolocation = false;
                         metadata.gpsSource = gpsData.source;
+                        metadata.gps = gpsData; // Store GPS data for timeline augmentation
                         databaseHits++;
                         
                         console.log(`   📍 Database: ${path.basename(filePath)} (${gpsData.source})`);
@@ -569,6 +630,7 @@ class ImageGeolocationProcessor {
                             metadata.hasGpsCoordinates = true;
                             metadata.needsGeolocation = false;
                             metadata.gpsSource = GPS_SOURCES.EXIF_GPS;
+                            metadata.gps = gpsData; // Store GPS data for timeline augmentation
                             exifExtractions++;
                             
                             console.log(`   📷 EXIF: ${path.basename(filePath)}`);

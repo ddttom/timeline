@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import readlineSync from 'readline-sync';
 
 /**
@@ -15,16 +16,17 @@ export function promptForDirectory() {
     console.log('\n=== Image Geolocation Processor ===');
     console.log('This application will process images in a directory and add GPS coordinates using timeline data.\n');
     
+    // Default path: user's home directory + /pics
+    const defaultPath = path.join(os.homedir(), 'pics');
+    
     while (true) {
-        const userInput = readlineSync.question('Enter the target directory path: ');
+        const userInput = readlineSync.question(`Enter the target directory path (default: ${defaultPath}): `);
         
-        if (!userInput.trim()) {
-            console.log('❌ Please enter a directory path.\n');
-            continue;
-        }
+        // Use default path if user presses return with no input
+        const targetPath = userInput.trim() || defaultPath;
         
         try {
-            const validatedPath = validateDirectoryPath(userInput.trim());
+            const validatedPath = validateDirectoryPath(targetPath);
             
             // Show confirmation
             console.log(`\n📁 Target directory: ${validatedPath}`);
