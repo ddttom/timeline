@@ -59,8 +59,7 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
             }
         }
         
-        // Find closest timeline record within tolerance</search>
-</search_and_replace>
+        // Find closest timeline record within tolerance
         const closestRecord = findClosestRecord(timelineRecords, utcTimestamp, toleranceMinutes);
         
         if (closestRecord) {

@@ -10,11 +10,24 @@ A comprehensive Node.js application that processes image geolocation using Googl
 
 - **Comprehensive Format Support**
   - JPEG, TIFF, PNG, WebP, AVIF, HEIF, HEIC
-  - RAW formats: DNG, CR2, NEF, ARW, ORF, RW2, RAF, PEF, SRW
+  - RAW formats: DNG, CR2, CR3, NEF, ARW, ORF, RW2, RAF, PEF, SRW
 
 - **Dual Interpolation System**
   - Primary: Google Maps timeline data with 30-minute tolerance
   - Secondary: Nearby images with GPS data (2km radius, 4-hour window)
+
+- **Geolocation Database System**
+  - In-memory database with optional SQLite persistence
+  - Priority-based GPS source management (Database → EXIF → Timeline → Nearby Images)
+  - Incremental processing - only processes new/changed images on subsequent runs
+  - Consolidated JSON export with complete source attribution
+  - Significant performance improvements for repeated processing
+
+- **Enhanced GPS Writing**
+  - Hybrid GPS EXIF writing using piexifjs + exiftool fallback
+  - Proper GPS coordinate embedding (fixes previous copy-only behavior)
+  - Support for all major image formats including Canon CR3
+  - Reliable GPS metadata injection with comprehensive error handling
 
 - **Advanced Features**
   - Timezone handling with EXIF extraction and system fallback
@@ -93,7 +106,14 @@ this.config = {
     secondaryRadius: 2000,      // Secondary interpolation radius (meters)
     secondaryTimeWindow: 4,     // Secondary interpolation time window (hours)
     batchSize: 10,              // Images to process in parallel
-    createBackups: false        // Create backups before modifying images
+    createBackups: false,       // Create backups before modifying images
+    geolocationDatabase: {
+        enableSqlitePersistence: false,    // Enable SQLite database persistence
+        sqliteDbPath: 'data/geolocation.db',  // SQLite database file path
+        exportPath: 'data/geolocation-export.json',  // JSON export file path
+        validateCoordinates: true,         // Validate GPS coordinates
+        coordinateSystem: 'WGS84'          // Coordinate system standard
+    }
 };
 ```
 
@@ -136,19 +156,26 @@ The application parses timeline data with the following structure:
 
 ## Processing Logic
 
-### Phase 1: Image Discovery and EXIF Extraction
+### Phase 1: Image Discovery and GPS Extraction
 
-1. **Directory Traversal**: Recursively scans the target directory
-2. **Image Detection**: Identifies supported image formats
-3. **Metadata Extraction**: Extracts complete EXIF data using Sharp library
-4. **Indexing**: Creates a comprehensive metadata index keyed by file paths
+1. **Database Initialization**: Loads existing GPS data from previous runs
+2. **Directory Traversal**: Recursively scans the target directory
+3. **Image Detection**: Identifies supported image formats (including CR3)
+4. **Priority GPS Checking**: 
+   - First checks geolocation database for existing GPS data
+   - Extracts EXIF GPS metadata if not in database
+   - Stores new GPS data for future runs
+5. **Indexing**: Creates a comprehensive metadata index keyed by file paths
 
 ### Phase 2: Geolocation Inference
 
-1. **Filtering**: Identifies images lacking GPS coordinates but with valid timestamps
-2. **Primary Interpolation**: Matches image timestamps with timeline data (±30 minutes)
-3. **Secondary Interpolation**: Uses nearby images with GPS data for weighted interpolation
-4. **Coordinate Writing**: Injects calculated GPS coordinates into EXIF data
+1. **Database Query**: Checks if GPS data already exists (skips interpolation if found)
+2. **Filtering**: Identifies images lacking GPS coordinates but with valid timestamps
+3. **Primary Interpolation**: Matches image timestamps with timeline data (±30 minutes)
+4. **Secondary Interpolation**: Uses nearby images with GPS data for weighted interpolation
+5. **Coordinate Writing**: Injects calculated GPS coordinates into EXIF data using hybrid approach
+6. **Database Storage**: Stores interpolated GPS data for future runs
+7. **JSON Export**: Generates consolidated geolocation database export
 
 ### Interpolation Algorithms
 
@@ -226,6 +253,46 @@ A detailed JSON report is exported to `processing-report.json`:
 }
 ```
 
+### Geolocation Database Export
+
+A consolidated geolocation database is exported to `data/geolocation-export.json`:
+
+```json
+{
+  "metadata": {
+    "exportDate": "2025-08-10T12:30:00.000Z",
+    "totalRecords": 1234,
+    "sourceBreakdown": {
+      "DATABASE": 456,
+      "EXIF_GPS": 234,
+      "TIMELINE_INTERPOLATED": 423,
+      "NEARBY_INTERPOLATED": 121
+    },
+    "coordinateSystem": "WGS84",
+    "version": "1.0.0"
+  },
+  "records": [
+    {
+      "imageId": "IMG_1234_abc123",
+      "filePath": "/path/to/image.jpg",
+      "fileName": "image.jpg",
+      "coordinates": {
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "altitude": 10.5,
+        "bearing": 45.0,
+        "accuracy": 5.0
+      },
+      "timestamp": "2025-08-10T09:30:00.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "EXIF_GPS",
+      "confidence": "HIGH",
+      "createdAt": "2025-08-10T12:30:00.000Z"
+    }
+  ]
+}
+```
+
 ## Error Handling
 
 The application includes comprehensive error handling:
@@ -277,6 +344,21 @@ The application includes comprehensive error handling:
 ```
 - Check directory permissions
 - Run with appropriate user privileges
+
+### GPS Writing Issues
+
+**GPS coordinates not being written to images**
+```
+⚠️  Failed to write GPS coordinates - both piexifjs and exiftool failed
+```
+- Install exiftool for better compatibility: `brew install exiftool` (macOS) or `apt-get install exiftool` (Linux)
+- Check file permissions for write access
+- Ensure image format supports EXIF metadata
+
+**Performance on subsequent runs**
+- First run processes all images and builds geolocation database
+- Subsequent runs are significantly faster by leveraging cached GPS data
+- Database is automatically loaded from `data/geolocation-export.json`
 
 ### Debug Mode
 
