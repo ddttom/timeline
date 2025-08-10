@@ -386,6 +386,59 @@ class ImageGeolocationProcessor {
         console.log(`   🎯 ${summary.newlyGeotagged.toLocaleString()} images newly geotagged`);
         console.log(`   ✅ ${summary.successRate}% success rate`);
         console.log(`   ⏱️  ${summary.duration}s total processing time`);
+        
+        // Add detailed analysis if no images were geotagged
+        if (summary.newlyGeotagged === 0 && this.imagesNeedingGeolocation.length > 0) {
+            console.log(`\n🔍 ANALYSIS: Why no images were geotagged`);
+            console.log('='.repeat(50));
+            
+            // Analyze timeline coverage
+            if (this.timelineRecords && this.timelineRecords.length > 0) {
+                const timelineStart = new Date(Math.min(...this.timelineRecords.map(r => new Date(r.timestamp))));
+                const timelineEnd = new Date(Math.max(...this.timelineRecords.map(r => new Date(r.timestamp))));
+                
+                console.log(`📅 Timeline coverage: ${timelineStart.toLocaleDateString()} to ${timelineEnd.toLocaleDateString()}`);
+                
+                // Analyze image timestamps
+                const imageTimestamps = this.imagesNeedingGeolocation.map(img => img.metadata.timestamp).filter(t => t);
+                if (imageTimestamps.length > 0) {
+                    const imageStart = new Date(Math.min(...imageTimestamps));
+                    const imageEnd = new Date(Math.max(...imageTimestamps));
+                    
+                    console.log(`📸 Image date range: ${imageStart.toLocaleDateString()} to ${imageEnd.toLocaleDateString()}`);
+                    
+                    // Check overlap
+                    const hasOverlap = !(imageEnd < timelineStart || imageStart > timelineEnd);
+                    if (!hasOverlap) {
+                        if (imageStart > timelineEnd) {
+                            const daysAfter = Math.round((imageStart - timelineEnd) / (1000 * 60 * 60 * 24));
+                            console.log(`❌ Images are ${daysAfter} days AFTER timeline ends`);
+                        } else {
+                            const daysBefore = Math.round((timelineStart - imageStart) / (1000 * 60 * 60 * 24));
+                            console.log(`❌ Images are ${daysBefore} days BEFORE timeline starts`);
+                        }
+                        console.log(`💡 Solution: Export timeline data that covers ${imageStart.toLocaleDateString()} to ${imageEnd.toLocaleDateString()}`);
+                    } else {
+                        console.log(`✅ Timeline and images have overlapping dates`);
+                        console.log(`❌ But no matches found within ${this.config.timelineTolerance}-minute tolerance`);
+                        console.log(`💡 Solution: Increase timelineTolerance in config (currently ${this.config.timelineTolerance} minutes)`);
+                    }
+                }
+            } else {
+                console.log(`❌ No timeline data available`);
+                console.log(`💡 Solution: Place Timeline Edits.json file in data/ directory`);
+            }
+            
+            // Secondary interpolation analysis
+            if (this.imagesWithGps.length === 0) {
+                console.log(`❌ No reference images with GPS coordinates found`);
+                console.log(`💡 Solution: Include some images with existing GPS coordinates for interpolation`);
+            } else {
+                console.log(`✅ Found ${this.imagesWithGps.length} images with GPS coordinates for secondary interpolation`);
+                console.log(`❌ But secondary interpolation also failed`);
+                console.log(`💡 Check: Images may be too far apart in time (>${this.config.secondaryTimeWindow}h) or space (>${this.config.secondaryRadius}m)`);
+            }
+        }
     }
 }
 

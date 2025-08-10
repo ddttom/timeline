@@ -27,7 +27,40 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
         
         console.log(`🔍 Primary interpolation for ${imageMetadata.fileName} at ${utcTimestamp.toISOString()}`);
         
-        // Find closest timeline record within tolerance
+        // Debug: Show timeline data range and comparison
+        if (timelineRecords.length > 0) {
+            const timelineStart = new Date(Math.min(...timelineRecords.map(r => new Date(r.timestamp))));
+            const timelineEnd = new Date(Math.max(...timelineRecords.map(r => new Date(r.timestamp))));
+            console.log(`   📅 Timeline range: ${timelineStart.toISOString()} to ${timelineEnd.toISOString()}`);
+            console.log(`   🎯 Image timestamp: ${utcTimestamp.toISOString()}`);
+            
+            // Check if image timestamp is within timeline range
+            if (utcTimestamp < timelineStart) {
+                const daysBefore = Math.round((timelineStart - utcTimestamp) / (1000 * 60 * 60 * 24));
+                console.log(`   ⚠️  Image is ${daysBefore} days BEFORE timeline start`);
+            } else if (utcTimestamp > timelineEnd) {
+                const daysAfter = Math.round((utcTimestamp - timelineEnd) / (1000 * 60 * 60 * 24));
+                console.log(`   ⚠️  Image is ${daysAfter} days AFTER timeline end`);
+            } else {
+                console.log(`   ✅ Image timestamp is within timeline range`);
+            }
+            
+            // Find closest record regardless of tolerance for debugging
+            const allDistances = timelineRecords.map(record => {
+                const recordTime = new Date(record.timestamp);
+                const timeDiff = Math.abs(recordTime - utcTimestamp) / (1000 * 60); // minutes
+                return { record, timeDiff };
+            }).sort((a, b) => a.timeDiff - b.timeDiff);
+            
+            if (allDistances.length > 0) {
+                const closest = allDistances[0];
+                console.log(`   🔍 Closest timeline record: ${closest.timeDiff.toFixed(1)} minutes away`);
+                console.log(`   📍 Closest record time: ${new Date(closest.record.timestamp).toISOString()}`);
+            }
+        }
+        
+        // Find closest timeline record within tolerance</search>
+</search_and_replace>
         const closestRecord = findClosestRecord(timelineRecords, utcTimestamp, toleranceMinutes);
         
         if (closestRecord) {
