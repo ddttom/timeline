@@ -34,8 +34,8 @@ A comprehensive Node.js application that processes image geolocation using Googl
 
 1. Clone or download the project:
 ```bash
-git clone https://github.com/ddttom/image-geolocation-processor.git
-cd image-geolocation-processor
+git clone https://github.com/ddttom/timeline.git
+cd timeline
 ```
 
 2. Install dependencies:

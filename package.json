@@ -1,5 +1,5 @@
 {
-  "name": "image-geolocation-processor",
+  "name": "timeline",
   "version": "1.0.0",
   "description": "A comprehensive Node.js application that processes image geolocation using Google Maps timeline data and temporal interpolation",
   "main": "src/index.js",
