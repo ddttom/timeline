@@ -46,12 +46,14 @@ A comprehensive Node.js application that processes image geolocation using Googl
 ### Setup
 
 1. Clone or download the project:
+
 ```bash
 git clone https://github.com/ddttom/timeline.git
 cd timeline
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -65,11 +67,13 @@ npm install
 ### Basic Usage
 
 Run the application:
+
 ```bash
 npm start
 ```
 
 The application will:
+
 1. Prompt you for a target directory path
 2. Validate the directory exists and is accessible
 3. Discover and index all images in the directory (recursively)
@@ -79,6 +83,7 @@ The application will:
 ### Development Mode
 
 For development with auto-restart:
+
 ```bash
 npm run dev
 ```
@@ -161,7 +166,7 @@ The application parses timeline data with the following structure:
 1. **Database Initialization**: Loads existing GPS data from previous runs
 2. **Directory Traversal**: Recursively scans the target directory
 3. **Image Detection**: Identifies supported image formats (including CR3)
-4. **Priority GPS Checking**: 
+4. **Priority GPS Checking**:
    - First checks geolocation database for existing GPS data
    - Extracts EXIF GPS metadata if not in database
    - Stores new GPS data for future runs
@@ -180,11 +185,13 @@ The application parses timeline data with the following structure:
 ### Interpolation Algorithms
 
 #### Primary Interpolation (Timeline Data)
+
 - Finds closest timeline record within 30-minute tolerance
 - Performs temporal interpolation between two timeline records
 - Handles timezone conversion and normalization
 
 #### Secondary Interpolation (Nearby Images)
+
 - Identifies images within 2km radius and 4-hour time window
 - Applies weighted interpolation based on temporal and spatial distance
 - Uses combined temporal (60%) and spatial (40%) weighting
@@ -306,16 +313,19 @@ The application includes comprehensive error handling:
 ## Performance Considerations
 
 ### Memory Management
+
 - Processes images in configurable batches (default: 10)
 - Releases memory between batches
 - Tracks peak memory usage in statistics
 
 ### Processing Optimization
+
 - Parallel processing within batches
 - Efficient coordinate calculations using Haversine formula
 - Minimal file system operations
 
 ### Large Collections
+
 - Designed to handle thousands of images
 - Progress reporting for long-running operations
 - Graceful degradation when timeline data is unavailable
@@ -325,37 +335,46 @@ The application includes comprehensive error handling:
 ### Common Issues
 
 **Timeline file not found**
+
 ```
 ⚠️  Timeline file not found, skipping timeline-based interpolation
 ```
+
 - Ensure `Timeline Edits.json` is in the `data/` directory
 - Check file permissions and format
 
 **No images need geolocation**
+
 ```
 ✅ No images need geolocation processing!
 ```
+
 - All images already have GPS coordinates
 - No images have valid timestamps post-Unix epoch
 
 **Permission denied**
+
 ```
 ❌ Permission denied accessing directory: /path/to/directory
 ```
+
 - Check directory permissions
 - Run with appropriate user privileges
 
 ### GPS Writing Issues
 
 **GPS coordinates not being written to images**
+
 ```
 ⚠️  Failed to write GPS coordinates - both piexifjs and exiftool failed
 ```
+
 - Install exiftool for better compatibility: `brew install exiftool` (macOS) or `apt-get install exiftool` (Linux)
 - Check file permissions for write access
 - Ensure image format supports EXIF metadata
 
 **Performance on subsequent runs**
+
 - First run processes all images and builds geolocation database
 - Subsequent runs are significantly faster by leveraging cached GPS data
 - Database is automatically loaded from `data/geolocation-export.json`
@@ -363,6 +382,7 @@ The application includes comprehensive error handling:
 ### Debug Mode
 
 Enable verbose logging by setting the environment variable:
+
 ```bash
 DEBUG=true npm start
 ```
@@ -372,6 +392,7 @@ DEBUG=true npm start
 ### Core Classes
 
 #### `ImageGeolocationProcessor`
+
 Main application orchestrator
 
 ```javascript
@@ -380,6 +401,7 @@ await processor.run();
 ```
 
 #### `StatisticsCollector`
+
 Tracks processing statistics
 
 ```javascript
@@ -391,6 +413,7 @@ const report = stats.generateReport();
 ### Utility Functions
 
 #### Coordinate Conversion
+
 ```javascript
 import { e7ToDecimal, decimalToE7, isValidCoordinatePair } from './utils/coordinates.js';
 
@@ -400,6 +423,7 @@ const valid = isValidCoordinatePair(lat, lng); // boolean
 ```
 
 #### Distance Calculations
+
 ```javascript
 import { calculateDistance, filterCoordinatesWithinRadius } from './utils/distance.js';
 
@@ -422,6 +446,7 @@ MIT License - see LICENSE file for details
 ## Support
 
 For issues and questions:
+
 1. Check the troubleshooting section
 2. Review the error messages and logs
 3. Create an issue with detailed information about your setup and the problem
