@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "exportDate": "2025-08-10T20:32:22.322Z",
-    "totalRecords": 39,
+    "exportDate": "2025-08-10T20:58:48.373Z",
+    "totalRecords": 181,
     "sourceBreakdown": {
-      "DATABASE": 0,
-      "EXIF_GPS": 39,
+      "DATABASE": 39,
+      "EXIF_GPS": 0,
       "TIMELINE_INTERPOLATED": 0,
-      "NEARBY_INTERPOLATED": 0
+      "NEARBY_INTERPOLATED": 102
     },
     "coordinateSystem": "WGS84",
     "version": "1.0.0"
@@ -752,6 +752,3174 @@
       "interpolationDetails": null,
       "createdAt": "2025-08-10T20:32:20.347Z",
       "updatedAt": "2025-08-10T20:32:20.347Z"
+    },
+    {
+      "imageId": "0T4A2288.CR3_jiv943",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2288.CR3",
+      "fileName": "0T4A2288.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 47.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:13:25.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.686Z",
+      "updatedAt": "2025-08-10T20:58:36.687Z"
+    },
+    {
+      "imageId": "0T4A2291.CR3_jw2bcr",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2291.CR3",
+      "fileName": "0T4A2291.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 43,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:14:59.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.714Z",
+      "updatedAt": "2025-08-10T20:58:36.714Z"
+    },
+    {
+      "imageId": "0T4A2287.CR3_jibgiq",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2287.CR3",
+      "fileName": "0T4A2287.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 47.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:13:19.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.757Z",
+      "updatedAt": "2025-08-10T20:58:36.757Z"
+    },
+    {
+      "imageId": "0T4A2289.CR3_jjf1pg",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2289.CR3",
+      "fileName": "0T4A2289.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 41.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:14:35.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.759Z",
+      "updatedAt": "2025-08-10T20:58:36.759Z"
+    },
+    {
+      "imageId": "0T4A2290.CR3_jviire",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2290.CR3",
+      "fileName": "0T4A2290.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 41.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:14:40.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.770Z",
+      "updatedAt": "2025-08-10T20:58:36.770Z"
+    },
+    {
+      "imageId": "0T4A2285.CR3_jh7vc0",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2285.CR3",
+      "fileName": "0T4A2285.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 47.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:13:03.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.788Z",
+      "updatedAt": "2025-08-10T20:58:36.788Z"
+    },
+    {
+      "imageId": "0T4A2286.CR3_jhrnxd",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2286.CR3",
+      "fileName": "0T4A2286.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 47.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:13:12.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.794Z",
+      "updatedAt": "2025-08-10T20:58:36.794Z"
+    },
+    {
+      "imageId": "0T4A2292.CR3_jwm3y4",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2292.CR3",
+      "fileName": "0T4A2292.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 43,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:15:14.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:36.799Z",
+      "updatedAt": "2025-08-10T20:58:36.799Z"
+    },
+    {
+      "imageId": "0T4A2351.CR3_woa400",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2351.CR3",
+      "fileName": "0T4A2351.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 51.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:56.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.673Z",
+      "updatedAt": "2025-08-10T20:58:38.673Z"
+    },
+    {
+      "imageId": "0T4A2349.CR3_wbmucp",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2349.CR3",
+      "fileName": "0T4A2349.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 51.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:51.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.695Z",
+      "updatedAt": "2025-08-10T20:58:38.695Z"
+    },
+    {
+      "imageId": "0T4A2350.CR3_wnqben",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2350.CR3",
+      "fileName": "0T4A2350.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 51.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:53.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.724Z",
+      "updatedAt": "2025-08-10T20:58:38.724Z"
+    },
+    {
+      "imageId": "0T4A2348.CR3_wb31rc",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2348.CR3",
+      "fileName": "0T4A2348.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 51.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:49.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.731Z",
+      "updatedAt": "2025-08-10T20:58:38.731Z"
+    },
+    {
+      "imageId": "0T4A2352.CR3_wotwld",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2352.CR3",
+      "fileName": "0T4A2352.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 53.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:35:00.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.736Z",
+      "updatedAt": "2025-08-10T20:58:38.736Z"
+    },
+    {
+      "imageId": "0T4A2344.CR3_w8vvdw",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2344.CR3",
+      "fileName": "0T4A2344.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 68.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:07.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.740Z",
+      "updatedAt": "2025-08-10T20:58:38.740Z"
+    },
+    {
+      "imageId": "0T4A2346.CR3_w9zgkm",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2346.CR3",
+      "fileName": "0T4A2346.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:15.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.745Z",
+      "updatedAt": "2025-08-10T20:58:38.745Z"
+    },
+    {
+      "imageId": "0T4A2345.CR3_w9fnz9",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2345.CR3",
+      "fileName": "0T4A2345.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:13.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.752Z",
+      "updatedAt": "2025-08-10T20:58:38.752Z"
+    },
+    {
+      "imageId": "0T4A2347.CR3_waj95z",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2347.CR3",
+      "fileName": "0T4A2347.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:18.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.753Z",
+      "updatedAt": "2025-08-10T20:58:38.753Z"
+    },
+    {
+      "imageId": "0T4A2343.CR3_w8c2sj",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2343.CR3",
+      "fileName": "0T4A2343.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 53.4,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:33:49.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:38.753Z",
+      "updatedAt": "2025-08-10T20:58:38.753Z"
+    },
+    {
+      "imageId": "0T4A2369.CR3_x9q353",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2369.CR3",
+      "fileName": "0T4A2369.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 56.6,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:41:11.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.517Z",
+      "updatedAt": "2025-08-10T20:58:39.517Z"
+    },
+    {
+      "imageId": "0T4A2370.CR3_xltk71",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2370.CR3",
+      "fileName": "0T4A2370.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 58.7,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:41:14.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.524Z",
+      "updatedAt": "2025-08-10T20:58:39.524Z"
+    },
+    {
+      "imageId": "0T4A2353.CR3_wpdp6q",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2353.CR3",
+      "fileName": "0T4A2353.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 53.1,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:35:05.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.529Z",
+      "updatedAt": "2025-08-10T20:58:39.529Z"
+    },
+    {
+      "imageId": "0T4A2359.CR3_wsogqw",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2359.CR3",
+      "fileName": "0T4A2359.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 70.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:37:02.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.531Z",
+      "updatedAt": "2025-08-10T20:58:39.531Z"
+    },
+    {
+      "imageId": "0T4A2367.CR3_x8mhyd",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2367.CR3",
+      "fileName": "0T4A2367.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 46.5,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:48.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.533Z",
+      "updatedAt": "2025-08-10T20:58:39.533Z"
+    },
+    {
+      "imageId": "0T4A2358.CR3_ws4o5j",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2358.CR3",
+      "fileName": "0T4A2358.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 70.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:37:00.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.549Z",
+      "updatedAt": "2025-08-10T20:58:39.549Z"
+    },
+    {
+      "imageId": "0T4A2364.CR3_x6z46a",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2364.CR3",
+      "fileName": "0T4A2364.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 54.3,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:07.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.550Z",
+      "updatedAt": "2025-08-10T20:58:39.550Z"
+    },
+    {
+      "imageId": "0T4A2363.CR3_x6fbkx",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2363.CR3",
+      "fileName": "0T4A2363.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 54.3,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:03.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.563Z",
+      "updatedAt": "2025-08-10T20:58:39.563Z"
+    },
+    {
+      "imageId": "0T4A2368.CR3_x96ajq",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2368.CR3",
+      "fileName": "0T4A2368.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 46.5,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:51.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.563Z",
+      "updatedAt": "2025-08-10T20:58:39.563Z"
+    },
+    {
+      "imageId": "0T4A2366.CR3_x82pd0",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2366.CR3",
+      "fileName": "0T4A2366.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 46.5,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:43.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.567Z",
+      "updatedAt": "2025-08-10T20:58:39.567Z"
+    },
+    {
+      "imageId": "0T4A2361.CR3_x5bqe7",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2361.CR3",
+      "fileName": "0T4A2361.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 66.5,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:38:33.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.570Z",
+      "updatedAt": "2025-08-10T20:58:39.570Z"
+    },
+    {
+      "imageId": "0T4A2371.CR3_xmdcse",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2371.CR3",
+      "fileName": "0T4A2371.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:42:15.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.574Z",
+      "updatedAt": "2025-08-10T20:58:39.574Z"
+    },
+    {
+      "imageId": "0T4A2362.CR3_x5vizk",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2362.CR3",
+      "fileName": "0T4A2362.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 66.3,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:38:37.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.576Z",
+      "updatedAt": "2025-08-10T20:58:39.576Z"
+    },
+    {
+      "imageId": "0T4A2365.CR3_x7iwrn",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2365.CR3",
+      "fileName": "0T4A2365.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 55.7,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:40:40.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.576Z",
+      "updatedAt": "2025-08-10T20:58:39.576Z"
+    },
+    {
+      "imageId": "0T4A2357.CR3_wrkvk6",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2357.CR3",
+      "fileName": "0T4A2357.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52.4,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:36:42.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.579Z",
+      "updatedAt": "2025-08-10T20:58:39.579Z"
+    },
+    {
+      "imageId": "0T4A2372.CR3_xmx5dr",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2372.CR3",
+      "fileName": "0T4A2372.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 52,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:42:18.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.584Z",
+      "updatedAt": "2025-08-10T20:58:39.584Z"
+    },
+    {
+      "imageId": "0T4A2355.CR3_wqhadg",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2355.CR3",
+      "fileName": "0T4A2355.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 58,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:35:35.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.585Z",
+      "updatedAt": "2025-08-10T20:58:39.585Z"
+    },
+    {
+      "imageId": "0T4A2377.CR3_xpo4ck",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2377.CR3",
+      "fileName": "0T4A2377.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14,
+        "altitude": 64.8,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:55.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.587Z",
+      "updatedAt": "2025-08-10T20:58:39.587Z"
+    },
+    {
+      "imageId": "0T4A2360.CR3_x4rxsu",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2360.CR3",
+      "fileName": "0T4A2360.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 66.5,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:38:30.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.590Z",
+      "updatedAt": "2025-08-10T20:58:39.590Z"
+    },
+    {
+      "imageId": "0T4A2354.CR3_wpxhs3",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2354.CR3",
+      "fileName": "0T4A2354.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 58,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:35:34.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.591Z",
+      "updatedAt": "2025-08-10T20:58:39.591Z"
+    },
+    {
+      "imageId": "0T4A2376.CR3_xp4br7",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2376.CR3",
+      "fileName": "0T4A2376.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14,
+        "altitude": 52.9,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:50.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.592Z",
+      "updatedAt": "2025-08-10T20:58:39.592Z"
+    },
+    {
+      "imageId": "0T4A2356.CR3_wr12yt",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2356.CR3",
+      "fileName": "0T4A2356.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": 47.3,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:35:41.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-10T20:58:39.594Z",
+      "updatedAt": "2025-08-10T20:58:39.594Z"
+    },
+    {
+      "imageId": "0T4A2300.JPG_uaicld",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2300.JPG",
+      "fileName": "0T4A2300.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:22:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9817916666663508,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.449Z",
+      "updatedAt": "2025-08-10T20:58:40.449Z"
+    },
+    {
+      "imageId": "0T4A2297.JPG_jzd82m",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2297.JPG",
+      "fileName": "0T4A2297.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9926666666666585,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.498Z",
+      "updatedAt": "2025-08-10T20:58:40.498Z"
+    },
+    {
+      "imageId": "0T4A2299.JPG_k0gt9c",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2299.JPG",
+      "fileName": "0T4A2299.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:20:03.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9879583333333333,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.499Z",
+      "updatedAt": "2025-08-10T20:58:40.499Z"
+    },
+    {
+      "imageId": "0T4A2296.JPG_jytfh9",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2296.JPG",
+      "fileName": "0T4A2296.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9927916666666665,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.524Z",
+      "updatedAt": "2025-08-10T20:58:40.524Z"
+    },
+    {
+      "imageId": "0T4A2301.JPG_ub256q",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2301.JPG",
+      "fileName": "0T4A2301.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999993,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:22:38.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9814999999996841,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.528Z",
+      "updatedAt": "2025-08-10T20:58:40.528Z"
+    },
+    {
+      "imageId": "0T4A2298.JPG_jzx0nz",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2298.JPG",
+      "fileName": "0T4A2298.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:13.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9925416666666668,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.548Z",
+      "updatedAt": "2025-08-10T20:58:40.548Z"
+    },
+    {
+      "imageId": "0T4A2296.CR3_jytabk",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2296.CR3",
+      "fileName": "0T4A2296.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9927916666666665,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.902Z",
+      "updatedAt": "2025-08-10T20:58:40.902Z"
+    },
+    {
+      "imageId": "0T4A2300.CR3_uai7fo",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2300.CR3",
+      "fileName": "0T4A2300.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:22:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9817916666663508,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.912Z",
+      "updatedAt": "2025-08-10T20:58:40.912Z"
+    },
+    {
+      "imageId": "0T4A2299.CR3_k0go3n",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2299.CR3",
+      "fileName": "0T4A2299.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:20:03.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9879583333333333,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.912Z",
+      "updatedAt": "2025-08-10T20:58:40.912Z"
+    },
+    {
+      "imageId": "0T4A2302.CR3_ublsme",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2302.CR3",
+      "fileName": "0T4A2302.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:24:47.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9761249999999999,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.912Z",
+      "updatedAt": "2025-08-10T20:58:40.912Z"
+    },
+    {
+      "imageId": "0T4A2297.CR3_jzd2wx",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2297.CR3",
+      "fileName": "0T4A2297.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9926666666666585,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:40.916Z",
+      "updatedAt": "2025-08-10T20:58:40.916Z"
+    },
+    {
+      "imageId": "0T4A2313.JPG_ut7crn",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2313.JPG",
+      "fileName": "0T4A2313.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:31:28.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9594166666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.567Z",
+      "updatedAt": "2025-08-10T20:58:41.568Z"
+    },
+    {
+      "imageId": "0T4A2305.JPG_ud9bk6",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2305.JPG",
+      "fileName": "0T4A2305.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:27:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9704166666666583,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.582Z",
+      "updatedAt": "2025-08-10T20:58:41.582Z"
+    },
+    {
+      "imageId": "0T4A2320.JPG_v8lldr",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2320.JPG",
+      "fileName": "0T4A2320.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:09.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9402083333330172,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.621Z",
+      "updatedAt": "2025-08-10T20:58:41.621Z"
+    },
+    {
+      "imageId": "0T4A2304.JPG_ucpiyt",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2304.JPG",
+      "fileName": "0T4A2304.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:26:36.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9715833333330172,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.637Z",
+      "updatedAt": "2025-08-10T20:58:41.637Z"
+    },
+    {
+      "imageId": "0T4A2311.JPG_us3rkx",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2311.JPG",
+      "fileName": "0T4A2311.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:30:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9628750000000001,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.653Z",
+      "updatedAt": "2025-08-10T20:58:41.653Z"
+    },
+    {
+      "imageId": "0T4A2325.JPG_vbckck",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2325.JPG",
+      "fileName": "0T4A2325.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.938874999999684,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.660Z",
+      "updatedAt": "2025-08-10T20:58:41.660Z"
+    },
+    {
+      "imageId": "0T4A2316.JPG_uuuqjq",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2316.JPG",
+      "fileName": "0T4A2316.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:33:33.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9542083333330168,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.704Z",
+      "updatedAt": "2025-08-10T20:58:41.704Z"
+    },
+    {
+      "imageId": "0T4A2309.JPG_ufghxm",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2309.JPG",
+      "fileName": "0T4A2309.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000003,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:13.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9650416666666584,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:41.985Z",
+      "updatedAt": "2025-08-10T20:58:41.985Z"
+    },
+    {
+      "imageId": "0T4A2307.JPG_uecwqw",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2307.JPG",
+      "fileName": "0T4A2307.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:28:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9667916666663504,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.231Z",
+      "updatedAt": "2025-08-10T20:58:42.231Z"
+    },
+    {
+      "imageId": "0T4A2322.JPG_v9p6kh",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2322.JPG",
+      "fileName": "0T4A2322.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:15.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.939958333332701,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.250Z",
+      "updatedAt": "2025-08-10T20:58:42.250Z"
+    },
+    {
+      "imageId": "0T4A2310.JPG_urjyzk",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2310.JPG",
+      "fileName": "0T4A2310.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:34.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9641666666666665,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.254Z",
+      "updatedAt": "2025-08-10T20:58:42.254Z"
+    },
+    {
+      "imageId": "0T4A2321.JPG_v95dz4",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2321.JPG",
+      "fileName": "0T4A2321.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:12.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.940083333333325,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.273Z",
+      "updatedAt": "2025-08-10T20:58:42.273Z"
+    },
+    {
+      "imageId": "0T4A2306.JPG_udt45j",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2306.JPG",
+      "fileName": "0T4A2306.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:27:29.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.969374999999684,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.276Z",
+      "updatedAt": "2025-08-10T20:58:42.276Z"
+    },
+    {
+      "imageId": "0T4A2314.JPG_utr5d0",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2314.JPG",
+      "fileName": "0T4A2314.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:31:35.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9591249999996838,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.312Z",
+      "updatedAt": "2025-08-10T20:58:42.312Z"
+    },
+    {
+      "imageId": "0T4A2324.JPG_vasrr7",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2324.JPG",
+      "fileName": "0T4A2324.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:30.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9393333333330168,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.335Z",
+      "updatedAt": "2025-08-10T20:58:42.335Z"
+    },
+    {
+      "imageId": "0T4A2323.JPG_va8z5u",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2323.JPG",
+      "fileName": "0T4A2323.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:23.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9396249999996841,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.339Z",
+      "updatedAt": "2025-08-10T20:58:42.339Z"
+    },
+    {
+      "imageId": "0T4A2319.JPG_uwi4bt",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2319.JPG",
+      "fileName": "0T4A2319.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9404166666663505,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.340Z",
+      "updatedAt": "2025-08-10T20:58:42.340Z"
+    },
+    {
+      "imageId": "0T4A2327.JPG_vcg5ja",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2327.JPG",
+      "fileName": "0T4A2327.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:47.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.938625,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.342Z",
+      "updatedAt": "2025-08-10T20:58:42.342Z"
+    },
+    {
+      "imageId": "0T4A2303.JPG_uc5qdg",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2303.JPG",
+      "fileName": "0T4A2303.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:25:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9753749999996837,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.353Z",
+      "updatedAt": "2025-08-10T20:58:42.353Z"
+    },
+    {
+      "imageId": "0T4A2308.JPG_uewpc9",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2308.JPG",
+      "fileName": "0T4A2308.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9652916666666584,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.365Z",
+      "updatedAt": "2025-08-10T20:58:42.365Z"
+    },
+    {
+      "imageId": "0T4A2298.CR3_jzwvia",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2298.CR3",
+      "fileName": "0T4A2298.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:18:13.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9925416666666668,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.559Z",
+      "updatedAt": "2025-08-10T20:58:42.559Z"
+    },
+    {
+      "imageId": "0T4A2293.CR3_jx5wjh",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2293.CR3",
+      "fileName": "0T4A2293.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:17:32.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.994249999999684,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.560Z",
+      "updatedAt": "2025-08-10T20:58:42.560Z"
+    },
+    {
+      "imageId": "0T4A2295.CR3_jy9hq7",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2295.CR3",
+      "fileName": "0T4A2295.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:17:38.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9939999999999918,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.561Z",
+      "updatedAt": "2025-08-10T20:58:42.561Z"
+    },
+    {
+      "imageId": "0T4A2301.CR3_ub2011",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2301.CR3",
+      "fileName": "0T4A2301.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999993,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:22:38.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9814999999996841,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.569Z",
+      "updatedAt": "2025-08-10T20:58:42.569Z"
+    },
+    {
+      "imageId": "0T4A2294.CR3_jxpp4u",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2294.CR3",
+      "fileName": "0T4A2294.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:17:33.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.994208333333017,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:42.584Z",
+      "updatedAt": "2025-08-10T20:58:42.584Z"
+    },
+    {
+      "imageId": "0T4A2312.JPG_usnk6a",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2312.JPG",
+      "fileName": "0T4A2312.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:30:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9627916666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:43.286Z",
+      "updatedAt": "2025-08-10T20:58:43.286Z"
+    },
+    {
+      "imageId": "0T4A2317.JPG_uvej53",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2317.JPG",
+      "fileName": "0T4A2317.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:35:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9503749999996839,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:43.304Z",
+      "updatedAt": "2025-08-10T20:58:43.304Z"
+    },
+    {
+      "imageId": "0T4A2315.JPG_uuaxyd",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2315.JPG",
+      "fileName": "0T4A2315.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:33:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9551666666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:43.315Z",
+      "updatedAt": "2025-08-10T20:58:43.315Z"
+    },
+    {
+      "imageId": "0T4A2326.JPG_vbwcxx",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2326.JPG",
+      "fileName": "0T4A2326.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:44.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9387499999999999,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:43.729Z",
+      "updatedAt": "2025-08-10T20:58:43.729Z"
+    },
+    {
+      "imageId": "0T4A2318.JPG_uvybqg",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2318.JPG",
+      "fileName": "0T4A2318.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:38:23.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.942125,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.234Z",
+      "updatedAt": "2025-08-10T20:58:44.234Z"
+    },
+    {
+      "imageId": "0T4A2310.CR3_urjttv",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2310.CR3",
+      "fileName": "0T4A2310.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:34.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9641666666666665,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.503Z",
+      "updatedAt": "2025-08-10T20:58:44.503Z"
+    },
+    {
+      "imageId": "0T4A2308.CR3_uewk6k",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2308.CR3",
+      "fileName": "0T4A2308.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9652916666666584,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.514Z",
+      "updatedAt": "2025-08-10T20:58:44.514Z"
+    },
+    {
+      "imageId": "0T4A2311.CR3_us3mf8",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2311.CR3",
+      "fileName": "0T4A2311.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:30:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9628750000000001,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.514Z",
+      "updatedAt": "2025-08-10T20:58:44.514Z"
+    },
+    {
+      "imageId": "0T4A2313.CR3_ut77ly",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2313.CR3",
+      "fileName": "0T4A2313.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:31:28.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9594166666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.570Z",
+      "updatedAt": "2025-08-10T20:58:44.570Z"
+    },
+    {
+      "imageId": "0T4A2314.CR3_utr07b",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2314.CR3",
+      "fileName": "0T4A2314.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:31:35.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9591249999996838,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.571Z",
+      "updatedAt": "2025-08-10T20:58:44.571Z"
+    },
+    {
+      "imageId": "0T4A2324.CR3_vasmli",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2324.CR3",
+      "fileName": "0T4A2324.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:30.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9393333333330168,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.571Z",
+      "updatedAt": "2025-08-10T20:58:44.571Z"
+    },
+    {
+      "imageId": "0T4A2312.CR3_usnf0l",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2312.CR3",
+      "fileName": "0T4A2312.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:30:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9627916666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.592Z",
+      "updatedAt": "2025-08-10T20:58:44.592Z"
+    },
+    {
+      "imageId": "0T4A2320.CR3_v8lg82",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2320.CR3",
+      "fileName": "0T4A2320.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:09.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9402083333330172,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.621Z",
+      "updatedAt": "2025-08-10T20:58:44.621Z"
+    },
+    {
+      "imageId": "0T4A2316.CR3_uuule1",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2316.CR3",
+      "fileName": "0T4A2316.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:33:33.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9542083333330168,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.621Z",
+      "updatedAt": "2025-08-10T20:58:44.621Z"
+    },
+    {
+      "imageId": "0T4A2326.CR3_vbw7s8",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2326.CR3",
+      "fileName": "0T4A2326.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:44.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9387499999999999,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.636Z",
+      "updatedAt": "2025-08-10T20:58:44.636Z"
+    },
+    {
+      "imageId": "0T4A2318.CR3_uvy6kr",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2318.CR3",
+      "fileName": "0T4A2318.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:38:23.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.942125,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.654Z",
+      "updatedAt": "2025-08-10T20:58:44.654Z"
+    },
+    {
+      "imageId": "0T4A2305.CR3_ud96eh",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2305.CR3",
+      "fileName": "0T4A2305.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:27:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9704166666666583,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.658Z",
+      "updatedAt": "2025-08-10T20:58:44.658Z"
+    },
+    {
+      "imageId": "0T4A2309.CR3_ufgcrx",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2309.CR3",
+      "fileName": "0T4A2309.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000003,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:29:13.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9650416666666584,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.658Z",
+      "updatedAt": "2025-08-10T20:58:44.658Z"
+    },
+    {
+      "imageId": "0T4A2304.CR3_ucpdt4",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2304.CR3",
+      "fileName": "0T4A2304.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:26:36.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9715833333330172,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.660Z",
+      "updatedAt": "2025-08-10T20:58:44.660Z"
+    },
+    {
+      "imageId": "0T4A2319.CR3_uwhz64",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2319.CR3",
+      "fileName": "0T4A2319.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9404166666663505,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.662Z",
+      "updatedAt": "2025-08-10T20:58:44.662Z"
+    },
+    {
+      "imageId": "0T4A2327.CR3_vcg0dl",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2327.CR3",
+      "fileName": "0T4A2327.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:47.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.938625,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.662Z",
+      "updatedAt": "2025-08-10T20:58:44.662Z"
+    },
+    {
+      "imageId": "0T4A2322.CR3_v9p1es",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2322.CR3",
+      "fileName": "0T4A2322.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:15.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.939958333332701,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.666Z",
+      "updatedAt": "2025-08-10T20:58:44.666Z"
+    },
+    {
+      "imageId": "0T4A2325.CR3_vbcf6v",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2325.CR3",
+      "fileName": "0T4A2325.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.938874999999684,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.673Z",
+      "updatedAt": "2025-08-10T20:58:44.673Z"
+    },
+    {
+      "imageId": "0T4A2307.CR3_uecrl7",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2307.CR3",
+      "fileName": "0T4A2307.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:28:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9667916666663504,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.673Z",
+      "updatedAt": "2025-08-10T20:58:44.673Z"
+    },
+    {
+      "imageId": "0T4A2321.CR3_v958tf",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2321.CR3",
+      "fileName": "0T4A2321.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:12.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.940083333333325,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:44.674Z",
+      "updatedAt": "2025-08-10T20:58:44.674Z"
+    },
+    {
+      "imageId": "0T4A2331.JPG_vq70db",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2331.JPG",
+      "fileName": "0T4A2331.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:40:03.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9379583333330173,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.350Z",
+      "updatedAt": "2025-08-10T20:58:45.350Z"
+    },
+    {
+      "imageId": "0T4A2328.JPG_vczy4n",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2328.JPG",
+      "fileName": "0T4A2328.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:51.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9384583333333251,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.459Z",
+      "updatedAt": "2025-08-10T20:58:45.459Z"
+    },
+    {
+      "imageId": "0T4A2339.JPG_vuld47",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2339.JPG",
+      "fileName": "0T4A2339.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:45.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9312083333330171,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.710Z",
+      "updatedAt": "2025-08-10T20:58:45.710Z"
+    },
+    {
+      "imageId": "0T4A2329.JPG_vdjqq0",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2329.JPG",
+      "fileName": "0T4A2329.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:54.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9383333333330173,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.741Z",
+      "updatedAt": "2025-08-10T20:58:45.741Z"
+    },
+    {
+      "imageId": "0T4A2342.JPG_w7sfcv",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2342.JPG",
+      "fileName": "0T4A2342.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:43:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9304166666666668,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.871Z",
+      "updatedAt": "2025-08-10T20:58:45.871Z"
+    },
+    {
+      "imageId": "0T4A2334.JPG_vrue5e",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2334.JPG",
+      "fileName": "0T4A2334.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:34.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9341666666666664,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:45.948Z",
+      "updatedAt": "2025-08-10T20:58:45.948Z"
+    },
+    {
+      "imageId": "0T4A2333.JPG_vralk1",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2333.JPG",
+      "fileName": "0T4A2333.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9342916666663503,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.131Z",
+      "updatedAt": "2025-08-10T20:58:46.131Z"
+    },
+    {
+      "imageId": "0T4A2341.JPG_w78mri",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2341.JPG",
+      "fileName": "0T4A2341.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:43:00.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9305833333327012,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.342Z",
+      "updatedAt": "2025-08-10T20:58:46.342Z"
+    },
+    {
+      "imageId": "0T4A2330.JPG_vpn7ry",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2330.JPG",
+      "fileName": "0T4A2330.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:58.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9381666666663505,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.365Z",
+      "updatedAt": "2025-08-10T20:58:46.365Z"
+    },
+    {
+      "imageId": "0T4A2338.JPG_vu1kiu",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2338.JPG",
+      "fileName": "0T4A2338.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9313749999993677,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.389Z",
+      "updatedAt": "2025-08-10T20:58:46.389Z"
+    },
+    {
+      "imageId": "0T4A2335.JPG_vse6qr",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2335.JPG",
+      "fileName": "0T4A2335.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9338749999999917,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.392Z",
+      "updatedAt": "2025-08-10T20:58:46.392Z"
+    },
+    {
+      "imageId": "0T4A2337.JPG_vthrxh",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2337.JPG",
+      "fileName": "0T4A2337.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:20.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9322499999999918,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.395Z",
+      "updatedAt": "2025-08-10T20:58:46.395Z"
+    },
+    {
+      "imageId": "0T4A2340.JPG_w6ou65",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2340.JPG",
+      "fileName": "0T4A2340.JPG",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:58.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9306666666663508,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.397Z",
+      "updatedAt": "2025-08-10T20:58:46.397Z"
+    },
+    {
+      "imageId": "0T4A2336.JPG_vsxzc4",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2336.JPG",
+      "fileName": "0T4A2336.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:14.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9324999999996839,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.426Z",
+      "updatedAt": "2025-08-10T20:58:46.426Z"
+    },
+    {
+      "imageId": "0T4A2332.JPG_vqqsyo",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2332.JPG",
+      "fileName": "0T4A2332.JPG",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:21.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9347083333330171,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.447Z",
+      "updatedAt": "2025-08-10T20:58:46.447Z"
+    },
+    {
+      "imageId": "0T4A2323.CR3_va8u05",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2323.CR3",
+      "fileName": "0T4A2323.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:23.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9396249999996841,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.548Z",
+      "updatedAt": "2025-08-10T20:58:46.548Z"
+    },
+    {
+      "imageId": "0T4A2315.CR3_uuasso",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2315.CR3",
+      "fileName": "0T4A2315.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:33:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9551666666663506,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.557Z",
+      "updatedAt": "2025-08-10T20:58:46.557Z"
+    },
+    {
+      "imageId": "0T4A2329.CR3_vdjlkb",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2329.CR3",
+      "fileName": "0T4A2329.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:54.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9383333333330173,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.563Z",
+      "updatedAt": "2025-08-10T20:58:46.563Z"
+    },
+    {
+      "imageId": "0T4A2306.CR3_udsyzu",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2306.CR3",
+      "fileName": "0T4A2306.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:27:29.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.969374999999684,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.571Z",
+      "updatedAt": "2025-08-10T20:58:46.571Z"
+    },
+    {
+      "imageId": "0T4A2303.CR3_uc5l7r",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2303.CR3",
+      "fileName": "0T4A2303.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:25:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9753749999996837,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.575Z",
+      "updatedAt": "2025-08-10T20:58:46.575Z"
+    },
+    {
+      "imageId": "0T4A2317.CR3_uvedze",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2317.CR3",
+      "fileName": "0T4A2317.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:35:05.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9503749999996839,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.577Z",
+      "updatedAt": "2025-08-10T20:58:46.577Z"
+    },
+    {
+      "imageId": "0T4A2337.CR3_vthmrs",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2337.CR3",
+      "fileName": "0T4A2337.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:20.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9322499999999918,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.579Z",
+      "updatedAt": "2025-08-10T20:58:46.579Z"
+    },
+    {
+      "imageId": "0T4A2328.CR3_vczsyy",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2328.CR3",
+      "fileName": "0T4A2328.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:51.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9384583333333251,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.601Z",
+      "updatedAt": "2025-08-10T20:58:46.601Z"
+    },
+    {
+      "imageId": "0T4A2331.CR3_vq6v7m",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2331.CR3",
+      "fileName": "0T4A2331.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:40:03.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9379583333330173,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.606Z",
+      "updatedAt": "2025-08-10T20:58:46.606Z"
+    },
+    {
+      "imageId": "0T4A2335.CR3_vse1l2",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2335.CR3",
+      "fileName": "0T4A2335.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9338749999999917,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:46.607Z",
+      "updatedAt": "2025-08-10T20:58:46.607Z"
+    },
+    {
+      "imageId": "0T4A2373.JPG_xnh34t",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2373.JPG",
+      "fileName": "0T4A2373.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595607089520696,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9858055555555556,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:47.287Z",
+      "updatedAt": "2025-08-10T20:58:47.287Z"
+    },
+    {
+      "imageId": "0T4A2375.JPG_xokobj",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2375.JPG",
+      "fileName": "0T4A2375.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595403821225272,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9857222222222223,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:47.478Z",
+      "updatedAt": "2025-08-10T20:58:47.478Z"
+    },
+    {
+      "imageId": "0T4A2374.JPG_xo0vq6",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2374.JPG",
+      "fileName": "0T4A2374.JPG",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595505459668898,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9857638888888889,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:47.503Z",
+      "updatedAt": "2025-08-10T20:58:47.503Z"
+    },
+    {
+      "imageId": "0T4A2341.CR3_w78hlt",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2341.CR3",
+      "fileName": "0T4A2341.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:43:00.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9305833333327012,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.288Z",
+      "updatedAt": "2025-08-10T20:58:48.288Z"
+    },
+    {
+      "imageId": "0T4A2333.CR3_vragec",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2333.CR3",
+      "fileName": "0T4A2333.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:31.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9342916666663503,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.312Z",
+      "updatedAt": "2025-08-10T20:58:48.312Z"
+    },
+    {
+      "imageId": "0T4A2330.CR3_vpn2m9",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2330.CR3",
+      "fileName": "0T4A2330.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000002,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:39:58.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9381666666663505,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.312Z",
+      "updatedAt": "2025-08-10T20:58:48.312Z"
+    },
+    {
+      "imageId": "0T4A2334.CR3_vru8zp",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2334.CR3",
+      "fileName": "0T4A2334.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:34.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9341666666666664,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.321Z",
+      "updatedAt": "2025-08-10T20:58:48.321Z"
+    },
+    {
+      "imageId": "0T4A2338.CR3_vu1fd5",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2338.CR3",
+      "fileName": "0T4A2338.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999999,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:41.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9313749999993677,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.342Z",
+      "updatedAt": "2025-08-10T20:58:48.342Z"
+    },
+    {
+      "imageId": "0T4A2339.CR3_vul7yi",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2339.CR3",
+      "fileName": "0T4A2339.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:45.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9312083333330171,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.349Z",
+      "updatedAt": "2025-08-10T20:58:48.349Z"
+    },
+    {
+      "imageId": "0T4A2340.CR3_w6op0g",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2340.CR3",
+      "fileName": "0T4A2340.CR3",
+      "coordinates": {
+        "latitude": 77.99999999999997,
+        "longitude": 14.999999999999998,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:58.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9306666666663508,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.360Z",
+      "updatedAt": "2025-08-10T20:58:48.360Z"
+    },
+    {
+      "imageId": "0T4A2374.CR3_xo0qkh",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2374.CR3",
+      "fileName": "0T4A2374.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595505459668898,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:07.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9857638888888889,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.362Z",
+      "updatedAt": "2025-08-10T20:58:48.362Z"
+    },
+    {
+      "imageId": "0T4A2332.CR3_vqqnsz",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2332.CR3",
+      "fileName": "0T4A2332.CR3",
+      "coordinates": {
+        "latitude": 78.00000000000001,
+        "longitude": 15.000000000000005,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:41:21.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9347083333330171,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.363Z",
+      "updatedAt": "2025-08-10T20:58:48.363Z"
+    },
+    {
+      "imageId": "0T4A2336.CR3_vsxu6f",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2336.CR3",
+      "fileName": "0T4A2336.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 15.000000000000004,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:42:14.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9324999999996839,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.363Z",
+      "updatedAt": "2025-08-10T20:58:48.363Z"
+    },
+    {
+      "imageId": "0T4A2373.CR3_xngxz4",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2373.CR3",
+      "fileName": "0T4A2373.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595607089520696,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9858055555555556,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.364Z",
+      "updatedAt": "2025-08-10T20:58:48.364Z"
+    },
+    {
+      "imageId": "0T4A2342.CR3_w7sa76",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2342.CR3",
+      "fileName": "0T4A2342.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.999999999999996,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-03T17:43:04.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9304166666666668,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.373Z",
+      "updatedAt": "2025-08-10T20:58:48.373Z"
+    },
+    {
+      "imageId": "0T4A2375.CR3_xokj5u",
+      "filePath": "/Users/tomcranstoun/pics/svalbard/pics/0T4A2375.CR3",
+      "fileName": "0T4A2375.CR3",
+      "coordinates": {
+        "latitude": 78,
+        "longitude": 14.595403821225272,
+        "altitude": null,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:47:10.000Z",
+      "coordinateSystem": "WGS84",
+      "source": "NEARBY_INTERPOLATED",
+      "confidence": "LOW",
+      "interpolationDetails": {
+        "method": "unknown",
+        "confidence": 0.9857222222222223,
+        "timeDistance": null,
+        "spatialDistance": null
+      },
+      "createdAt": "2025-08-10T20:58:48.373Z",
+      "updatedAt": "2025-08-10T20:58:48.373Z"
     }
   ]
 }

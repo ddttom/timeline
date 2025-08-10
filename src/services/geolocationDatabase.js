@@ -333,6 +333,22 @@ export class GeolocationDatabase {
             console.error('❌ Database cleanup error:', error.message);
         }
     }
+
+    /**
+     * Export database to JSON (alias for exportToJson)
+     * @returns {Promise<boolean>} Success status
+     */
+    async export() {
+        return await this.exportToJson();
+    }
+
+    /**
+     * Close database connection (alias for cleanup)
+     * @returns {Promise<void>}
+     */
+    async close() {
+        return await this.cleanup();
+    }
     
     // Private helper methods
     

@@ -28,7 +28,7 @@ class ImageGeolocationProcessor {
             timelineTolerance: 30, // minutes
             secondaryRadius: 2000, // meters
             secondaryTimeWindow: 4, // hours
-            batchSize: 10, // images to process in parallel
+            batchSize: 25, // images to process in parallel (optimized for better performance)
             createBackups: false, // set to true to create backups before modifying images
             timelineAugmentation: {
                 enabled: true, // enable timeline augmentation from image GPS data
@@ -553,67 +553,82 @@ class ImageGeolocationProcessor {
     }
     
     /**
-     * Extract GPS coordinates with database priority
+     * Extract GPS coordinates with database priority (optimized with batching)
      */
     async extractGpsWithPriority() {
-        let processedCount = 0;
         const totalImages = this.imageIndex.size;
+        const imageEntries = Array.from(this.imageIndex.entries());
+        let processedCount = 0;
         
-        for (const [filePath, metadata] of this.imageIndex) {
-            try {
-                // Priority 1: Check database first
-                const existingGps = await this.geolocationDb.getGpsData(filePath);
-                if (existingGps) {
-                    // Update metadata with database GPS data
-                    metadata.hasGpsCoordinates = true;
-                    metadata.exifData = metadata.exifData || {};
-                    metadata.exifData.latitude = existingGps.latitude;
-                    metadata.exifData.longitude = existingGps.longitude;
-                    metadata.needsGeolocation = false;
-                    
-                    processedCount++;
-                    if (processedCount % 50 === 0) {
-                        displayProgress('GPS extraction', processedCount, totalImages);
+        console.log(`   🔄 Processing ${totalImages} images in batches of ${this.config.batchSize}...`);
+        
+        // Process images in batches for better performance
+        for (let i = 0; i < imageEntries.length; i += this.config.batchSize) {
+            const batch = imageEntries.slice(i, i + this.config.batchSize);
+            
+            // Process batch in parallel
+            const batchPromises = batch.map(async ([filePath, metadata]) => {
+                try {
+                    // Priority 1: Check database first (fast lookup)
+                    const existingGps = await this.geolocationDb.getGpsData(filePath);
+                    if (existingGps) {
+                        // Update metadata with database GPS data
+                        metadata.hasGpsCoordinates = true;
+                        metadata.exifData = metadata.exifData || {};
+                        metadata.exifData.latitude = existingGps.latitude;
+                        metadata.exifData.longitude = existingGps.longitude;
+                        metadata.needsGeolocation = false;
+                        return { success: true, source: 'database', filePath };
                     }
-                    continue;
-                }
-                
-                // Priority 2: Extract from EXIF
-                const gpsCoordinates = await extractGpsCoordinates(filePath);
-                if (gpsCoordinates && gpsCoordinates.latitude && gpsCoordinates.longitude) {
-                    // Store extracted GPS data in database for future runs
-                    const gpsData = {
-                        latitude: gpsCoordinates.latitude,
-                        longitude: gpsCoordinates.longitude,
-                        altitude: gpsCoordinates.altitude || null,
-                        bearing: null,
-                        accuracy: null,
-                        timestamp: metadata.timestamp
-                    };
                     
-                    await this.geolocationDb.store(filePath, gpsData, GPS_SOURCES.EXIF_EXTRACTED);
+                    // Priority 2: Extract from EXIF (slower operation)
+                    const gpsCoordinates = await extractGpsCoordinates(filePath);
+                    if (gpsCoordinates && gpsCoordinates.latitude && gpsCoordinates.longitude) {
+                        // Store extracted GPS data in database for future runs
+                        const gpsData = {
+                            latitude: gpsCoordinates.latitude,
+                            longitude: gpsCoordinates.longitude,
+                            altitude: gpsCoordinates.altitude || null,
+                            bearing: null,
+                            accuracy: null,
+                            timestamp: metadata.timestamp
+                        };
+                        
+                        await this.geolocationDb.store(filePath, gpsData, GPS_SOURCES.EXIF_EXTRACTED);
+                        
+                        // Update metadata
+                        metadata.hasGpsCoordinates = true;
+                        metadata.exifData = metadata.exifData || {};
+                        metadata.exifData.latitude = gpsCoordinates.latitude;
+                        metadata.exifData.longitude = gpsCoordinates.longitude;
+                        metadata.needsGeolocation = false;
+                        
+                        return { success: true, source: 'exif', filePath };
+                    }
                     
-                    // Update metadata
-                    metadata.hasGpsCoordinates = true;
-                    metadata.exifData = metadata.exifData || {};
-                    metadata.exifData.latitude = gpsCoordinates.latitude;
-                    metadata.exifData.longitude = gpsCoordinates.longitude;
-                    metadata.needsGeolocation = false;
+                    return { success: false, source: 'none', filePath };
+                    
+                } catch (error) {
+                    console.warn(`Warning: GPS extraction failed for ${path.basename(filePath)}: ${error.message}`);
+                    return { success: false, source: 'error', filePath, error: error.message };
                 }
-                
-                processedCount++;
-                if (processedCount % 50 === 0) {
-                    displayProgress('GPS extraction', processedCount, totalImages);
-                }
-                
-            } catch (error) {
-                console.warn(`Warning: GPS extraction failed for ${path.basename(filePath)}: ${error.message}`);
-                processedCount++;
+            });
+            
+            // Wait for batch to complete
+            const batchResults = await Promise.all(batchPromises);
+            processedCount += batchResults.length;
+            
+            // Update progress
+            displayProgress('GPS extraction', processedCount, totalImages);
+            
+            // Small delay between batches to prevent overwhelming the system
+            if (i + this.config.batchSize < imageEntries.length) {
+                await new Promise(resolve => setTimeout(resolve, 50));
             }
         }
         
-        displayProgress('GPS extraction', totalImages, totalImages);
         console.log(''); // New line after progress
+        console.log(`   ✅ Completed GPS extraction for ${totalImages} images`);
     }
     
     /**
