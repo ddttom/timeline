@@ -322,7 +322,7 @@ The system provides detailed failure information including:
 
 For detailed troubleshooting information and recommendations for each failure category, see [`FAILURE_REPORTING.md`](FAILURE_REPORTING.md).
 
-### Configuration
+### Failure Reporting Configuration
 
 Failure reporting is automatically enabled and provides:
 
@@ -619,7 +619,7 @@ The CR3 processing test suite validates:
 
 ### Common Issues
 
-**Timeline file not found**
+#### Timeline file not found
 
 ```bash
 ⚠️  Timeline file not found, skipping timeline-based interpolation
@@ -628,7 +628,7 @@ The CR3 processing test suite validates:
 - Ensure `Timeline Edits.json` is in the `data/` directory
 - Check file permissions and format
 
-**No images need geolocation**
+#### No images need geolocation
 
 ```bash
 ✅ No images need geolocation processing!
@@ -637,7 +637,7 @@ The CR3 processing test suite validates:
 - All images already have GPS coordinates
 - No images have valid timestamps post-Unix epoch
 
-**Permission denied**
+#### Permission denied
 
 ```bash
 ❌ Permission denied accessing directory: /path/to/directory
@@ -648,7 +648,7 @@ The CR3 processing test suite validates:
 
 ### GPS Writing Issues
 
-**GPS coordinates not being written to images**
+#### GPS coordinates not being written to images
 
 ```bash
 ⚠️  Failed to write GPS coordinates - both piexifjs and exiftool failed
@@ -658,7 +658,7 @@ The CR3 processing test suite validates:
 - Check file permissions for write access
 - Ensure image format supports EXIF metadata
 
-**CR3 files not being processed**
+#### CR3 files not being processed
 
 ```bash
 File format CR3 not supported for EXIF parsing
@@ -668,7 +668,7 @@ File format CR3 not supported for EXIF parsing
 - CR3 files require exiftool for metadata extraction
 - The system automatically routes CR3 files to exiftool processing
 
-**Performance on subsequent runs**
+#### Performance on subsequent runs
 
 - First run processes all images and builds geolocation database
 - Subsequent runs are significantly faster by leveraging cached GPS data
@@ -733,14 +733,12 @@ For detailed information about specific features:
 
 - **[Failure Reporting](FAILURE_REPORTING.md)**: Comprehensive guide to understanding and troubleshooting geolocation failures
 
-## Documentation
-
 ### Comprehensive Guides
 
 - **[DEBUGGING_MONITORING_GUIDE.md](DEBUGGING_MONITORING_GUIDE.md)** - Complete 582-line guide covering all debugging and monitoring capabilities
 - **[TIMELINE_OPTIMIZATION_SUMMARY.md](TIMELINE_OPTIMIZATION_SUMMARY.md)** - Technical summary of the timeline optimization solution and performance improvements
 
-### Testing
+### Testing Documentation
 
 - **Unit Tests**: [`tests/timeline-consolidation.test.js`](tests/timeline-consolidation.test.js) - 100% pass rate with 39+ comprehensive assertions
 - **Performance Tests**: [`tests/performance-test.js`](tests/performance-test.js) - Multi-scale performance benchmarking suite
