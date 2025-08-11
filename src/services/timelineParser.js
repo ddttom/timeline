@@ -1,11 +1,13 @@
 /**
  * Google Maps timeline data parser
  * Handles parsing and extraction of position records from Google Maps timeline exports
+ * Optimized for batch processing and smart logging
  */
 
 import fs from 'fs';
 import path from 'path';
 import { e7ToDecimal, isValidCoordinatePair } from '../utils/coordinates.js';
+import { createTimelineLogger, LOG_LEVELS } from '../utils/debugLogger.js';
 
 /**
  * Parse Google Maps timeline data from JSON file
@@ -13,8 +15,15 @@ import { e7ToDecimal, isValidCoordinatePair } from '../utils/coordinates.js';
  * @returns {Array} Array of position records with timestamps
  */
 export async function parseTimelineData(timelineFilePath) {
+    const logger = createTimelineLogger({ 
+        prefix: 'TIMELINE-PARSER',
+        level: LOG_LEVELS.INFO,
+        suppressDuplicates: true,
+        duplicateThreshold: 10
+    });
+    
     try {
-        console.log(`📍 Loading timeline data from: ${timelineFilePath}`);
+        logger.info(`Loading timeline data from: ${timelineFilePath}`);
         
         // Check if file exists
         if (!fs.existsSync(timelineFilePath)) {
@@ -25,13 +34,14 @@ export async function parseTimelineData(timelineFilePath) {
         const fileContent = await fs.promises.readFile(timelineFilePath, 'utf8');
         const timelineData = JSON.parse(fileContent);
         
-        // Extract position records
-        const positionRecords = extractPositionRecords(timelineData);
+        // Extract position records with optimized processing
+        const positionRecords = extractPositionRecords(timelineData, logger);
         
-        console.log(`✅ Parsed ${positionRecords.length} position records from timeline`);
+        logger.info(`Parsed ${positionRecords.length} position records from timeline`);
         return positionRecords;
         
     } catch (error) {
+        logger.error(`Failed to parse timeline data: ${error.message}`);
         throw new Error(`Failed to parse timeline data: ${error.message}`);
     }
 }
@@ -39,21 +49,38 @@ export async function parseTimelineData(timelineFilePath) {
 /**
  * Extract position records from timeline data structure
  * @param {Object} timelineData - Parsed timeline JSON data
+ * @param {Object} logger - Logger instance
  * @returns {Array} Array of position records
  */
-function extractPositionRecords(timelineData) {
+function extractPositionRecords(timelineData, logger) {
     const positionRecords = [];
+    const placeholderStats = {
+        total: 0,
+        skipped: 0,
+        processed: 0,
+        consolidatedGroups: new Map()
+    };
     
     if (!timelineData.timelineEdits || !Array.isArray(timelineData.timelineEdits)) {
         throw new Error('Invalid timeline data structure: missing timelineEdits array');
     }
     
+    logger.debug(`Processing ${timelineData.timelineEdits.length} timeline edits`);
+    
     for (const edit of timelineData.timelineEdits) {
         try {
+            // Handle placeholder entries (timeline extensions) with batch processing
+            if (edit.placeholderEntry) {
+                const placeholderResult = processBatchedPlaceholder(edit.placeholderEntry, edit.deviceId, placeholderStats, logger);
+                if (placeholderResult) {
+                    positionRecords.push(placeholderResult);
+                }
+            }
+            
             // Extract from rawSignal position data
             if (edit.rawSignal && edit.rawSignal.signal && edit.rawSignal.signal.position) {
                 const positionData = edit.rawSignal.signal.position;
-                const record = parsePositionRecord(positionData, edit.deviceId);
+                const record = parsePositionRecord(positionData, edit.deviceId, logger);
                 
                 if (record) {
                     positionRecords.push(record);
@@ -62,13 +89,27 @@ function extractPositionRecords(timelineData) {
             
             // Extract from placeAggregates
             if (edit.placeAggregates && edit.placeAggregates.placeAggregateInfo) {
-                const aggregateRecords = parsePlaceAggregates(edit.placeAggregates, edit.deviceId);
+                const aggregateRecords = parsePlaceAggregates(edit.placeAggregates, edit.deviceId, logger);
                 positionRecords.push(...aggregateRecords);
             }
             
         } catch (recordError) {
-            console.warn(`Warning: Failed to parse timeline record: ${recordError.message}`);
+            logger.warn(`Failed to parse timeline record: ${recordError.message}`);
             continue;
+        }
+    }
+    
+    // Log placeholder processing summary
+    if (placeholderStats.total > 0) {
+        logger.info(`Placeholder processing: ${placeholderStats.skipped} skipped, ${placeholderStats.processed} processed, ${placeholderStats.consolidatedGroups.size} unique timestamps`);
+        
+        // Log consolidation details at debug level
+        if (placeholderStats.consolidatedGroups.size > 0) {
+            logger.debug('Placeholder consolidation summary:', {
+                uniqueTimestamps: placeholderStats.consolidatedGroups.size,
+                totalOriginalEntries: placeholderStats.total,
+                duplicatesEliminated: placeholderStats.total - placeholderStats.consolidatedGroups.size
+            });
         }
     }
     
@@ -76,18 +117,66 @@ function extractPositionRecords(timelineData) {
     positionRecords.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     
     // Remove duplicates based on timestamp and coordinates
-    const uniqueRecords = removeDuplicateRecords(positionRecords);
+    const uniqueRecords = removeDuplicateRecords(positionRecords, logger);
     
     return uniqueRecords;
+}
+
+/**
+ * Process batched placeholder records to eliminate verbose logging
+ * @param {Object} placeholderData - Placeholder data from timeline extension
+ * @param {string} deviceId - Device ID
+ * @param {Object} stats - Placeholder processing statistics
+ * @param {Object} logger - Logger instance
+ * @returns {Object|null} Parsed placeholder record or null if skipped
+ */
+function processBatchedPlaceholder(placeholderData, deviceId, stats, logger) {
+    try {
+        if (!placeholderData.timestamp) {
+            return null;
+        }
+        
+        stats.total++;
+        const timestampKey = placeholderData.timestamp;
+        
+        // Track unique timestamps for consolidation reporting
+        if (!stats.consolidatedGroups.has(timestampKey)) {
+            stats.consolidatedGroups.set(timestampKey, {
+                count: 0,
+                firstSeen: new Date(),
+                consolidatedImages: placeholderData.consolidatedImages || [],
+                imageCount: placeholderData.imageCount || 1
+            });
+        }
+        
+        const group = stats.consolidatedGroups.get(timestampKey);
+        group.count++;
+        
+        // Skip placeholder records during timeline parsing - they don't provide GPS coordinates
+        // These are only used to extend the timeline range, not for interpolation
+        stats.skipped++;
+        
+        // Only log the first occurrence of each timestamp to reduce verbosity
+        if (group.count === 1) {
+            logger.trace(`Skipping placeholder record at ${timestampKey} (no GPS coordinates)${group.imageCount > 1 ? ` - consolidated from ${group.imageCount} images` : ''}`);
+        }
+        
+        return null;
+        
+    } catch (error) {
+        logger.warn(`Failed to parse placeholder record: ${error.message}`);
+        return null;
+    }
 }
 
 /**
  * Parse a single position record from rawSignal data
  * @param {Object} positionData - Position data from rawSignal
  * @param {string} deviceId - Device ID
+ * @param {Object} logger - Logger instance
  * @returns {Object|null} Parsed position record or null if invalid
  */
-function parsePositionRecord(positionData, deviceId) {
+function parsePositionRecord(positionData, deviceId, logger) {
     try {
         if (!positionData.point || !positionData.timestamp) {
             return null;
@@ -133,7 +222,7 @@ function parsePositionRecord(positionData, deviceId) {
  * @param {string} deviceId - Device ID
  * @returns {Array} Array of position records from place aggregates
  */
-function parsePlaceAggregates(placeAggregates, deviceId) {
+function parsePlaceAggregates(placeAggregates, deviceId, logger) {
     const records = [];
     
     try {
@@ -185,21 +274,64 @@ function parsePlaceAggregates(placeAggregates, deviceId) {
 
 /**
  * Remove duplicate position records
+ * Optimized with Maps for O(1) lookups and comprehensive logging
  * @param {Array} records - Array of position records
+ * @param {Object} logger - Logger instance
  * @returns {Array} Array with duplicates removed
  */
-function removeDuplicateRecords(records) {
-    const seen = new Set();
+function removeDuplicateRecords(records, logger) {
+    const seen = new Map();
     const uniqueRecords = [];
+    let duplicatesRemoved = 0;
     
     for (const record of records) {
-        // Create a unique key based on timestamp and coordinates
-        const key = `${record.timestamp.getTime()}_${record.latitude.toFixed(6)}_${record.longitude.toFixed(6)}`;
+        // Handle records that might not have coordinates (like placeholder records)
+        let key;
+        if (record.latitude !== null && record.longitude !== null) {
+            // Create a unique key based on timestamp and coordinates
+            key = `${record.timestamp.getTime()}_${record.latitude.toFixed(6)}_${record.longitude.toFixed(6)}`;
+        } else {
+            // For placeholder records, use timestamp and record type
+            key = `${record.timestamp.getTime()}_placeholder_${record.recordType || 'unknown'}`;
+        }
         
         if (!seen.has(key)) {
-            seen.add(key);
+            seen.set(key, {
+                firstSeen: new Date(),
+                count: 1,
+                record: record
+            });
             uniqueRecords.push(record);
+        } else {
+            // Track duplicate for logging
+            const existing = seen.get(key);
+            existing.count++;
+            duplicatesRemoved++;
+            
+            // Log first few duplicates at debug level
+            if (existing.count <= 3) {
+                logger.debug(`Duplicate record removed: ${key.substring(0, 50)}...`);
+            }
         }
+    }
+    
+    if (duplicatesRemoved > 0) {
+        logger.info(`Removed ${duplicatesRemoved} duplicate records from ${records.length} total records`);
+        
+        // Log statistics about duplicate patterns
+        const duplicatePatterns = Array.from(seen.entries())
+            .filter(([_, info]) => info.count > 1)
+            .sort(([_, a], [__, b]) => b.count - a.count)
+            .slice(0, 5); // Top 5 most duplicated patterns
+        
+        if (duplicatePatterns.length > 0) {
+            logger.debug('Top duplicate patterns:', duplicatePatterns.map(([key, info]) => ({
+                pattern: key.substring(0, 50) + '...',
+                count: info.count
+            })));
+        }
+    } else {
+        logger.debug('No duplicate records found');
     }
     
     return uniqueRecords;
@@ -248,6 +380,12 @@ export function findClosestRecord(positionRecords, targetTimestamp, toleranceMin
     let minTimeDiff = Infinity;
     
     for (const record of positionRecords) {
+        // Skip placeholder entries with null coordinates
+        if (record.latitude === null || record.longitude === null || 
+            record.isPlaceholder || record.source === 'timeline_extension_placeholder') {
+            continue;
+        }
+        
         const recordTime = new Date(record.timestamp);
         const timeDiff = Math.abs(recordTime.getTime() - targetTimestamp.getTime());
         
@@ -259,6 +397,82 @@ export function findClosestRecord(positionRecords, targetTimestamp, toleranceMin
     
     return closestRecord;
 }
+/**
+ * Enhanced fallback record finder for images beyond normal GPS coverage
+ * Uses progressive search expansion to find the nearest valid GPS record
+ * @param {Array} positionRecords - Array of position records
+ * @param {Date} targetTimestamp - Target timestamp
+ * @param {number} initialToleranceMinutes - Initial tolerance in minutes (default: 30)
+ * @param {number} maxToleranceHours - Maximum tolerance in hours (default: 72)
+ * @returns {Object|null} Closest valid GPS record or null
+ */
+export function findClosestRecordWithFallback(positionRecords, targetTimestamp, initialToleranceMinutes = 30, maxToleranceHours = 72) {
+    if (!Array.isArray(positionRecords) || positionRecords.length === 0) {
+        return null;
+    }
+    
+    if (!(targetTimestamp instanceof Date)) {
+        throw new Error('Target timestamp must be a Date object');
+    }
+    
+    // First try normal tolerance
+    let result = findClosestRecord(positionRecords, targetTimestamp, initialToleranceMinutes);
+    if (result) {
+        return {
+            record: result,
+            fallbackUsed: false,
+            timeDifferenceMinutes: Math.abs(new Date(result.timestamp) - targetTimestamp) / (1000 * 60)
+        };
+    }
+    
+    // Filter out placeholder entries for fallback search
+    const validGpsRecords = positionRecords.filter(record => 
+        record.latitude !== null && record.longitude !== null && 
+        !record.isPlaceholder && record.source !== 'timeline_extension_placeholder'
+    );
+    
+    if (validGpsRecords.length === 0) {
+        return null;
+    }
+    
+    // Progressive search expansion: 1h, 6h, 24h, 72h
+    const toleranceSteps = [60, 360, 1440, maxToleranceHours * 60]; // minutes
+    
+    for (const toleranceMinutes of toleranceSteps) {
+        if (toleranceMinutes > maxToleranceHours * 60) break;
+        
+        const toleranceMs = toleranceMinutes * 60 * 1000;
+        let closestRecord = null;
+        let minTimeDiff = Infinity;
+        
+        for (const record of validGpsRecords) {
+            const recordTime = new Date(record.timestamp);
+            const timeDiff = Math.abs(recordTime.getTime() - targetTimestamp.getTime());
+            
+            if (timeDiff <= toleranceMs && timeDiff < minTimeDiff) {
+                minTimeDiff = timeDiff;
+                closestRecord = record;
+            }
+        }
+        
+        if (closestRecord) {
+            return {
+                record: closestRecord,
+                fallbackUsed: true,
+                fallbackToleranceHours: toleranceMinutes / 60,
+                timeDifferenceMinutes: minTimeDiff / (1000 * 60)
+            };
+        }
+    }
+    
+    // Last resort: find the absolute closest GPS record regardless of time (only if enabled)
+    // Note: This section is disabled by default to prevent using GPS records that are too far away in time
+    // The unlimited fallback can be enabled in configuration if needed, but it's not recommended
+    // as it may result in very inaccurate location assignments
+    
+    return null;
+}
+
 
 /**
  * Interpolate position between two records

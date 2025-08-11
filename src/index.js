@@ -37,6 +37,14 @@ class ImageGeolocationProcessor {
                 proximityTimeTolerance: 10, // minutes for proximity duplicate detection
                 createBackup: true // create backup of timeline file before modification
             },
+            enhancedFallback: {
+                enabled: true, // enable enhanced fallback for images beyond GPS coverage
+                maxFallbackHours: 72, // maximum fallback tolerance in hours
+                progressiveTolerances: [60, 360, 1440], // progressive search steps in minutes (1h, 6h, 24h)
+                enableUnlimitedFallback: false, // disable unlimited fallback as last resort
+                warnOnDistantGPS: true, // warn when using GPS records far from image timestamp
+                distanceWarningThreshold: 24 // hours - warn when GPS record is this far away
+            },
             geolocationDatabase: {
                 enableSqlitePersistence: false,
                 sqliteDbPath: 'data/geolocation.db',

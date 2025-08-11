@@ -65,6 +65,21 @@ export class StatisticsCollector {
             errors: []
         };
         
+        this.geolocationFailures = {
+            totalFailed: 0,
+            failuresByCategory: {
+                missingTimestamp: 0,
+                invalidTimestamp: 0,
+                timelineUnavailable: 0,
+                timelineOutOfRange: 0,
+                timelineTooFar: 0,
+                noNearbyImages: 0,
+                nearbyImagesTooFar: 0,
+                technicalError: 0
+            },
+            detailedFailures: []
+        };
+        
         this.performance = {
             memoryUsage: {
                 initial: process.memoryUsage(),
@@ -195,6 +210,47 @@ export class StatisticsCollector {
     }
     
     /**
+     * Record a geolocation failure with detailed information
+     * @param {string} filePath - Path to the failed file
+     * @param {string} fileName - Name of the failed file
+     * @param {string} category - Failure category
+     * @param {Object} details - Detailed failure information
+     */
+    recordGeolocationFailure(filePath, fileName, category, details = {}) {
+        this.geolocationFailures.totalFailed++;
+        
+        // Increment category counter
+        if (this.geolocationFailures.failuresByCategory.hasOwnProperty(category)) {
+            this.geolocationFailures.failuresByCategory[category]++;
+        } else {
+            this.geolocationFailures.failuresByCategory.technicalError++;
+        }
+        
+        // Store detailed failure information
+        const failureRecord = {
+            filePath,
+            fileName,
+            category,
+            timestamp: new Date().toISOString(),
+            details: {
+                imageTimestamp: details.imageTimestamp || null,
+                timelineRange: details.timelineRange || null,
+                closestTimelineDistance: details.closestTimelineDistance || null,
+                nearbyImagesCount: details.nearbyImagesCount || 0,
+                closestImageDistance: details.closestImageDistance || null,
+                closestImageTimeDiff: details.closestImageTimeDiff || null,
+                errorMessage: details.errorMessage || null,
+                primaryAttempted: details.primaryAttempted || false,
+                secondaryAttempted: details.secondaryAttempted || false,
+                ...details
+            }
+        };
+        
+        this.geolocationFailures.detailedFailures.push(failureRecord);
+        this.updateMemoryUsage();
+    }
+    
+    /**
      * Update memory usage tracking
      */
     updateMemoryUsage() {
@@ -268,6 +324,7 @@ export class StatisticsCollector {
             timeline: this.timeline,
             interpolation: this.interpolation,
             gpsWriting: this.gpsWriting,
+            geolocationFailures: this.geolocationFailures,
             performance: this.performance
         };
     }
@@ -359,6 +416,68 @@ export function displayStatisticsReport(report) {
     console.log(`✅ Successful: ${report.gpsWriting.successful.toLocaleString()}`);
     console.log(`❌ Failed: ${report.gpsWriting.failed.toLocaleString()}`);
     console.log(`💾 Backups Created: ${report.gpsWriting.backupsCreated.toLocaleString()}`);
+    
+    // Geolocation Failures - NEW SECTION
+    if (report.geolocationFailures && report.geolocationFailures.totalFailed > 0) {
+        console.log('\n❌ GEOLOCATION FAILURES');
+        console.log('-'.repeat(30));
+        console.log(`🚫 Total Failed Files: ${report.geolocationFailures.totalFailed.toLocaleString()}`);
+        
+        // Failure categories
+        console.log('\n📊 Failure Categories:');
+        const categories = report.geolocationFailures.failuresByCategory;
+        if (categories.missingTimestamp > 0) {
+            console.log(`   📅 Missing Timestamp: ${categories.missingTimestamp.toLocaleString()}`);
+        }
+        if (categories.invalidTimestamp > 0) {
+            console.log(`   ⚠️  Invalid Timestamp: ${categories.invalidTimestamp.toLocaleString()}`);
+        }
+        if (categories.timelineUnavailable > 0) {
+            console.log(`   🗺️  Timeline Unavailable: ${categories.timelineUnavailable.toLocaleString()}`);
+        }
+        if (categories.timelineOutOfRange > 0) {
+            console.log(`   📅 Timeline Out of Range: ${categories.timelineOutOfRange.toLocaleString()}`);
+        }
+        if (categories.timelineTooFar > 0) {
+            console.log(`   ⏰ Timeline Too Far: ${categories.timelineTooFar.toLocaleString()}`);
+        }
+        if (categories.noNearbyImages > 0) {
+            console.log(`   📸 No Nearby Images: ${categories.noNearbyImages.toLocaleString()}`);
+        }
+        if (categories.nearbyImagesTooFar > 0) {
+            console.log(`   📏 Nearby Images Too Far: ${categories.nearbyImagesTooFar.toLocaleString()}`);
+        }
+        if (categories.technicalError > 0) {
+            console.log(`   🔧 Technical Errors: ${categories.technicalError.toLocaleString()}`);
+        }
+        
+        // Sample detailed failures (show first 5)
+        if (report.geolocationFailures.detailedFailures.length > 0) {
+            console.log('\n🔍 Sample Detailed Failures:');
+            const sampleFailures = report.geolocationFailures.detailedFailures.slice(0, 5);
+            
+            sampleFailures.forEach((failure, index) => {
+                console.log(`\n   ${index + 1}. ${failure.fileName}`);
+                console.log(`      Category: ${failure.category}`);
+                if (failure.details.imageTimestamp) {
+                    console.log(`      Image Time: ${new Date(failure.details.imageTimestamp).toLocaleString()}`);
+                }
+                if (failure.details.closestTimelineDistance !== null) {
+                    console.log(`      Closest Timeline: ${failure.details.closestTimelineDistance.toFixed(1)} minutes away`);
+                }
+                if (failure.details.closestImageDistance !== null) {
+                    console.log(`      Closest Image: ${failure.details.closestImageDistance.toFixed(0)}m, ${failure.details.closestImageTimeDiff.toFixed(1)} minutes`);
+                }
+                if (failure.details.errorMessage) {
+                    console.log(`      Error: ${failure.details.errorMessage}`);
+                }
+            });
+            
+            if (report.geolocationFailures.detailedFailures.length > 5) {
+                console.log(`\n   ... and ${report.geolocationFailures.detailedFailures.length - 5} more failures`);
+            }
+        }
+    }
     
     // Performance
     console.log('\n⚡ PERFORMANCE');

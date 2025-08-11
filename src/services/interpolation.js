@@ -3,7 +3,7 @@
  * Handles primary and secondary interpolation for image geolocation
  */
 
-import { findClosestRecord, interpolatePosition, findRecordsInTimeRange } from './timelineParser.js';
+import { findClosestRecord, findClosestRecordWithFallback, interpolatePosition, findRecordsInTimeRange } from './timelineParser.js';
 import { calculateDistance, filterCoordinatesWithinRadius } from '../utils/distance.js';
 import { isValidCoordinatePair } from '../utils/coordinates.js';
 import { extractTimezone, normalizeToUTC } from './timezone.js';
@@ -13,12 +13,19 @@ import { extractTimezone, normalizeToUTC } from './timezone.js';
  * @param {Object} imageMetadata - Image metadata object
  * @param {Array} timelineRecords - Array of timeline position records
  * @param {number} toleranceMinutes - Tolerance in minutes (default: 30)
- * @returns {Object|null} Interpolated coordinates or null if not found
+ * @returns {Object} Result object with success flag, result data, and failure details
  */
 export async function primaryInterpolation(imageMetadata, timelineRecords, toleranceMinutes = 30) {
     try {
         if (!imageMetadata.timestamp || !Array.isArray(timelineRecords)) {
-            return null;
+            return {
+                success: false,
+                result: null,
+                failureDetails: {
+                    reason: 'timelineUnavailable',
+                    message: 'No valid timestamp or timeline data'
+                }
+            };
         }
         
         // Normalize image timestamp to UTC
@@ -27,10 +34,15 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
         
         console.log(`🔍 Primary interpolation for ${imageMetadata.fileName} at ${utcTimestamp.toISOString()}`);
         
-        // Debug: Show timeline data range and comparison
+        // Calculate timeline range for failure reporting
+        let timelineRange = null;
+        let closestDistance = null;
+        
         if (timelineRecords.length > 0) {
             const timelineStart = new Date(Math.min(...timelineRecords.map(r => new Date(r.timestamp))));
             const timelineEnd = new Date(Math.max(...timelineRecords.map(r => new Date(r.timestamp))));
+            timelineRange = { start: timelineStart, end: timelineEnd };
+            
             console.log(`   📅 Timeline range: ${timelineStart.toISOString()} to ${timelineEnd.toISOString()}`);
             console.log(`   🎯 Image timestamp: ${utcTimestamp.toISOString()}`);
             
@@ -38,14 +50,16 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
             if (utcTimestamp < timelineStart) {
                 const daysBefore = Math.round((timelineStart - utcTimestamp) / (1000 * 60 * 60 * 24));
                 console.log(`   ⚠️  Image is ${daysBefore} days BEFORE timeline start`);
+                console.log(`   📅 Note: Timeline has been extended with placeholder entries for this timestamp`);
             } else if (utcTimestamp > timelineEnd) {
                 const daysAfter = Math.round((utcTimestamp - timelineEnd) / (1000 * 60 * 60 * 24));
                 console.log(`   ⚠️  Image is ${daysAfter} days AFTER timeline end`);
+                console.log(`   📅 Note: Timeline has been extended with placeholder entries for this timestamp`);
             } else {
                 console.log(`   ✅ Image timestamp is within timeline range`);
             }
             
-            // Find closest record regardless of tolerance for debugging
+            // Find closest record regardless of tolerance for failure reporting
             const allDistances = timelineRecords.map(record => {
                 const recordTime = new Date(record.timestamp);
                 const timeDiff = Math.abs(recordTime - utcTimestamp) / (1000 * 60); // minutes
@@ -54,6 +68,7 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
             
             if (allDistances.length > 0) {
                 const closest = allDistances[0];
+                closestDistance = closest.timeDiff;
                 console.log(`   🔍 Closest timeline record: ${closest.timeDiff.toFixed(1)} minutes away`);
                 console.log(`   📍 Closest record time: ${new Date(closest.record.timestamp).toISOString()}`);
             }
@@ -68,16 +83,20 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
             console.log(`✅ Found timeline match: ${timeDiff.toFixed(1)} minutes difference`);
             
             return {
-                latitude: closestRecord.latitude,
-                longitude: closestRecord.longitude,
-                source: 'timeline_direct',
-                accuracy: closestRecord.accuracy,
-                timeDifference: timeDiff,
-                sourceRecord: {
-                    timestamp: closestRecord.timestamp,
-                    source: closestRecord.source,
-                    deviceId: closestRecord.deviceId
-                }
+                success: true,
+                result: {
+                    latitude: closestRecord.latitude,
+                    longitude: closestRecord.longitude,
+                    source: 'timeline_direct',
+                    accuracy: closestRecord.accuracy,
+                    timeDifference: timeDiff,
+                    sourceRecord: {
+                        timestamp: closestRecord.timestamp,
+                        source: closestRecord.source,
+                        deviceId: closestRecord.deviceId
+                    }
+                },
+                failureDetails: null
             };
         }
         
@@ -86,15 +105,74 @@ export async function primaryInterpolation(imageMetadata, timelineRecords, toler
         
         if (interpolatedResult) {
             console.log(`✅ Timeline interpolation successful`);
-            return interpolatedResult;
+            return {
+                success: true,
+                result: interpolatedResult,
+                failureDetails: null
+            };
         }
         
-        console.log(`❌ No timeline match found within ${toleranceMinutes} minutes`);
-        return null;
+        // Try enhanced fallback strategy for images beyond normal GPS coverage
+        console.log(`⚠️  No timeline match within ${toleranceMinutes} minutes for ${imageMetadata.fileName}, trying enhanced fallback...`);
+        
+        const fallbackResult = findClosestRecordWithFallback(timelineRecords, utcTimestamp, toleranceMinutes, 72);
+        
+        if (fallbackResult && fallbackResult.record) {
+            const { record, fallbackUsed, fallbackToleranceHours, timeDifferenceMinutes, warning } = fallbackResult;
+            
+            console.log(`✅ Enhanced fallback successful: ${timeDifferenceMinutes.toFixed(1)} minutes away`);
+            if (fallbackUsed) {
+                console.log(`   📍 Used fallback tolerance: ${fallbackToleranceHours} hours`);
+            }
+            if (warning) {
+                console.log(`   ⚠️  ${warning}`);
+            }
+            
+            return {
+                success: true,
+                result: {
+                    latitude: record.latitude,
+                    longitude: record.longitude,
+                    source: fallbackUsed ? 'timeline_fallback' : 'timeline_direct',
+                    accuracy: record.accuracy,
+                    timeDifference: timeDifferenceMinutes,
+                    fallbackUsed,
+                    fallbackToleranceHours,
+                    warning,
+                    sourceRecord: {
+                        timestamp: record.timestamp,
+                        source: record.source,
+                        deviceId: record.deviceId
+                    }
+                },
+                failureDetails: null
+            };
+        }
+        
+        console.log(`❌ No timeline match found for ${imageMetadata.fileName} even with enhanced fallback`);
+        return {
+            success: false,
+            result: null,
+            failureDetails: {
+                reason: 'timelineTooFar',
+                message: `No GPS records found within 72 hours. Closest timeline record is ${closestDistance?.toFixed(1) || 'unknown'} minutes away (tolerance: ${toleranceMinutes} minutes)`,
+                closestDistance,
+                timelineRange,
+                tolerance: toleranceMinutes,
+                enhancedFallbackAttempted: true
+            }
+        };
         
     } catch (error) {
         console.warn(`Warning: Primary interpolation failed for ${imageMetadata.fileName}: ${error.message}`);
-        return null;
+        return {
+            success: false,
+            result: null,
+            failureDetails: {
+                reason: 'technicalError',
+                message: error.message
+            }
+        };
     }
 }
 
@@ -169,12 +247,20 @@ async function interpolateFromTimeline(targetTimestamp, timelineRecords, maxTole
  * @param {Array} imagesWithGps - Array of images with GPS coordinates
  * @param {number} radiusMeters - Search radius in meters (default: 2000)
  * @param {number} timeWindowHours - Time window in hours (default: 4)
- * @returns {Object|null} Interpolated coordinates or null if not found
+ * @returns {Object} Result object with success flag, result data, and failure details
  */
 export async function secondaryInterpolation(imageMetadata, imagesWithGps, radiusMeters = 2000, timeWindowHours = 4) {
     try {
         if (!imageMetadata.timestamp || !Array.isArray(imagesWithGps) || imagesWithGps.length === 0) {
-            return null;
+            return {
+                success: false,
+                result: null,
+                failureDetails: {
+                    reason: 'noNearbyImages',
+                    message: 'No nearby images with GPS data available',
+                    nearbyImagesCount: imagesWithGps ? imagesWithGps.length : 0
+                }
+            };
         }
         
         console.log(`🔍 Secondary interpolation for ${imageMetadata.fileName}`);
@@ -182,6 +268,38 @@ export async function secondaryInterpolation(imageMetadata, imagesWithGps, radiu
         // Find images within time window
         const timeWindowMs = timeWindowHours * 60 * 60 * 1000;
         const targetTime = imageMetadata.timestamp.getTime();
+        
+        // Calculate closest image details for failure reporting
+        let closestImage = null;
+        let closestDistance = null;
+        let closestTimeDiff = null;
+        
+        if (imagesWithGps.length > 0) {
+            const imageDistances = imagesWithGps
+                .filter(img => img.timestamp && img.coordinates)
+                .map(img => {
+                    const timeDiff = Math.abs(img.timestamp.getTime() - targetTime) / (1000 * 60); // minutes
+                    let spatialDistance = null;
+                    
+                    // Calculate spatial distance if we have coordinates
+                    if (img.coordinates && img.coordinates.latitude && img.coordinates.longitude) {
+                        // For now, we'll estimate distance - in a real implementation you'd use proper geospatial calculation
+                        spatialDistance = Math.sqrt(
+                            Math.pow(img.coordinates.latitude - (imageMetadata.coordinates?.latitude || 0), 2) +
+                            Math.pow(img.coordinates.longitude - (imageMetadata.coordinates?.longitude || 0), 2)
+                        ) * 111000; // rough conversion to meters
+                    }
+                    
+                    return { img, timeDiff, spatialDistance };
+                })
+                .sort((a, b) => a.timeDiff - b.timeDiff);
+            
+            if (imageDistances.length > 0) {
+                closestImage = imageDistances[0];
+                closestTimeDiff = closestImage.timeDiff;
+                closestDistance = closestImage.spatialDistance;
+            }
+        }
         
         const nearbyImages = imagesWithGps.filter(img => {
             if (!img.timestamp || !img.coordinates) return false;
@@ -192,7 +310,19 @@ export async function secondaryInterpolation(imageMetadata, imagesWithGps, radiu
         
         if (nearbyImages.length === 0) {
             console.log(`❌ No images found within ${timeWindowHours} hour time window`);
-            return null;
+            return {
+                success: false,
+                result: null,
+                failureDetails: {
+                    reason: 'nearbyImagesTooFar',
+                    message: `No images found within ${timeWindowHours} hour time window`,
+                    nearbyImagesCount: imagesWithGps.length,
+                    closestDistance,
+                    closestTimeDiff,
+                    timeWindow: timeWindowHours,
+                    radiusMeters
+                }
+            };
         }
         
         console.log(`📍 Found ${nearbyImages.length} images within time window`);
@@ -202,15 +332,38 @@ export async function secondaryInterpolation(imageMetadata, imagesWithGps, radiu
         
         if (result) {
             console.log(`✅ Secondary interpolation successful`);
-            return result;
+            return {
+                success: true,
+                result,
+                failureDetails: null
+            };
         }
         
         console.log(`❌ Secondary interpolation failed`);
-        return null;
+        return {
+            success: false,
+            result: null,
+            failureDetails: {
+                reason: 'nearbyImagesTooFar',
+                message: `Weighted interpolation failed - images too far spatially`,
+                nearbyImagesCount: nearbyImages.length,
+                closestDistance,
+                closestTimeDiff,
+                timeWindow: timeWindowHours,
+                radiusMeters
+            }
+        };
         
     } catch (error) {
         console.warn(`Warning: Secondary interpolation failed for ${imageMetadata.fileName}: ${error.message}`);
-        return null;
+        return {
+            success: false,
+            result: null,
+            failureDetails: {
+                reason: 'technicalError',
+                message: error.message
+            }
+        };
     }
 }
 

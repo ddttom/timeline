@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "exportDate": "2025-08-10T20:58:48.373Z",
-    "totalRecords": 181,
+    "exportDate": "2025-08-11T14:31:19.370Z",
+    "totalRecords": 184,
     "sourceBreakdown": {
-      "DATABASE": 39,
+      "DATABASE": 184,
       "EXIF_GPS": 0,
       "TIMELINE_INTERPOLATED": 0,
-      "NEARBY_INTERPOLATED": 102
+      "NEARBY_INTERPOLATED": 0
     },
     "coordinateSystem": "WGS84",
     "version": "1.0.0"
@@ -3920,6 +3920,60 @@
       },
       "createdAt": "2025-08-10T20:58:48.373Z",
       "updatedAt": "2025-08-10T20:58:48.373Z"
+    },
+    {
+      "imageId": "0T4A2347.JPG_h1dxub",
+      "filePath": "/Users/tomcranstoun/Documents/GitHub/timeline/test-subset/0T4A2347.JPG",
+      "fileName": "0T4A2347.JPG",
+      "coordinates": {
+        "latitude": 78.265655,
+        "longitude": 15.16312667,
+        "altitude": 52.61,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:18.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-11T07:35:23.659Z",
+      "updatedAt": "2025-08-11T07:35:23.661Z"
+    },
+    {
+      "imageId": "0T4A2345.JPG_h0acnl",
+      "filePath": "/Users/tomcranstoun/Documents/GitHub/timeline/test-subset/0T4A2345.JPG",
+      "fileName": "0T4A2345.JPG",
+      "coordinates": {
+        "latitude": 78.265655,
+        "longitude": 15.16312667,
+        "altitude": 52.61,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:13.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-11T07:35:23.661Z",
+      "updatedAt": "2025-08-11T07:35:23.661Z"
+    },
+    {
+      "imageId": "0T4A2346.JPG_h0u58y",
+      "filePath": "/Users/tomcranstoun/Documents/GitHub/timeline/test-subset/0T4A2346.JPG",
+      "fileName": "0T4A2346.JPG",
+      "coordinates": {
+        "latitude": 78.265655,
+        "longitude": 15.16312667,
+        "altitude": 52.61,
+        "bearing": null,
+        "accuracy": null
+      },
+      "timestamp": "2025-08-05T16:34:15.000Z",
+      "coordinateSystem": "WGS84",
+      "confidence": "MEDIUM",
+      "interpolationDetails": null,
+      "createdAt": "2025-08-11T07:35:23.662Z",
+      "updatedAt": "2025-08-11T07:35:23.662Z"
     }
   ]
 }
